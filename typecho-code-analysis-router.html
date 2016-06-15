@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>typecho 源码分析：3、Router — zqhong</title>
+	<meta name="description" content="Title: typecho 源码分析：3、Router; Date: 2016-03-04; Author: zqhong">
+	<meta name="author" content="zqhong">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+	<!--[if lt IE 9]>
+		<script src="/theme/html5.js"></script>
+		<![endif]-->
+	<link href="/theme/css/ipython.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/simplex/bootstrap.min.css" rel="stylesheet">
+	<link href="/theme/css/local.css" rel="stylesheet">
+	<link href="/theme/css/pygments.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+	<div class="page-header">
+		<h1><a href="/">zqhong</a>
+			<br><small>Simplicity is the ultimate sophistication</small></h1>	</div>
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+<div class="article" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="text-center article-header">
+		<h1 itemprop="name headline" class="article-title">typecho 源码分析：3、Router</h1>
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<h4 itemprop="name">zqhong</h4>
+		</span>
+		<time datetime="2016-03-04T09:50:00+08:00" itemprop="datePublished">Fri 04 March 2016</time>
+	</div>
+	<div>
+		Category:
+		<span itemprop="articleSection">
+			<a href="/category/php.html" rel="category">PHP</a>
+		</span>
+	</div>
+ 
+	<div>
+		Tags:
+		<span itemprop="keywords">
+			<a href="/tag/typecho.html" rel="tag">typecho</a>
+		</span>
+		<span itemprop="keywords">
+			<a href="/tag/php.html" rel="tag">php</a>
+		</span>
+		<span itemprop="keywords">
+			<a href="/tag/router.html" rel="tag">router</a>
+		</span>
+	</div>
+	<div itemprop="articleBody" class="article-body"><h3>Router</h3>
+<p>在 web 程序中，Router 负责解析用户的 uri，匹配路由表。再根据路由表信息，选择相对应的函数（function）或方法（method）。</p>
+<h4>一、入口函数</h4>
+<p><em>index.php</em></p>
+<div class="highlight"><pre><span></span><span class="x">Typecho_Widget::widget(&#39;Widget_Init&#39;);</span>
+<span class="x">Typecho_Router::dispatch();</span>
+</pre></div>
+
+
+<p>代码分析：
+1. 初始化路由器
+2. 开始路由分发</p>
+<hr />
+<h4>二、初始化路由表</h4>
+<p><em>typecho/var/Widget/Init.php</em></p>
+<div class="highlight"><pre><span></span><span class="x">class Widget_Init extends Typecho_Widget</span>
+<span class="x">{</span>
+<span class="x">    public function execute()</span>
+<span class="x">    {</span>
+<span class="x">        /** 对变量赋值 */</span>
+<span class="x">        $options = $this-&gt;widget(&#39;Widget_Options&#39;);</span>
+
+<span class="x">        if (defined(&#39;__TYPECHO_PATHINFO_ENCODING__&#39;)) {</span>
+<span class="x">            $pathInfo = $this-&gt;request-&gt;getPathInfo(__TYPECHO_PATHINFO_ENCODING__, $options-&gt;charset);</span>
+<span class="x">        } else {</span>
+<span class="x">            $pathInfo = $this-&gt;request-&gt;getPathInfo();</span>
+<span class="x">        }</span>
+
+<span class="x">        Typecho_Router::setPathInfo($pathInfo);</span>
+
+<span class="x">        /** 初始化路由器 */</span>
+<span class="x">        Typecho_Router::setRoutes($options-&gt;routingTable);</span>
+<span class="x">    }</span>
+<span class="x">}</span>
+
+<span class="x">class Widget_Options extends Typecho_Widget</span>
+<span class="x">{</span>
+<span class="x">    public function execute()</span>
+<span class="x">    {</span>
+<span class="x">        $this-&gt;db-&gt;fetchAll($this-&gt;db-&gt;select()-&gt;from(&#39;table.options&#39;)</span>
+<span class="x">        -&gt;where(&#39;user = 0&#39;), array($this, &#39;push&#39;));</span>
+
+<span class="x">        /** 自动初始化路由表 */</span>
+<span class="x">        $this-&gt;routingTable = unserialize($this-&gt;routingTable);</span>
+<span class="x">        if (!isset($this-&gt;routingTable[0])) {</span>
+<span class="x">            /** 解析路由并缓存 */</span>
+<span class="x">            $parser = new Typecho_Router_Parser($this-&gt;routingTable);</span>
+<span class="x">            $parsedRoutingTable = $parser-&gt;parse();</span>
+<span class="x">            $this-&gt;routingTable = array_merge(array($parsedRoutingTable), $this-&gt;routingTable);</span>
+<span class="x">            $this-&gt;db-&gt;query($this-&gt;db-&gt;update(&#39;table.options&#39;)-&gt;rows(array(&#39;value&#39; =&gt; serialize($this-&gt;routingTable)))</span>
+<span class="x">            -&gt;where(&#39;name = ?&#39;, &#39;routingTable&#39;));</span>
+<span class="x">        }</span>
+<span class="x">    }</span>
+<span class="x">}</span>
+
+<span class="x">class Typecho_Router</span>
+<span class="x">{</span>
+<span class="x">    public static $_routingTable = array();</span>
+
+<span class="x">    public static function setRoutes($routes)</span>
+<span class="x">    {</span>
+<span class="x">        if (isset($routes[0])) {</span>
+<span class="x">            self::$_routingTable = $routes[0];</span>
+<span class="x">        } else {</span>
+<span class="x">            /** 解析路由配置 */</span>
+<span class="x">            $parser = new Typecho_Router_Parser($routes);</span>
+<span class="x">            self::$_routingTable = $parser-&gt;parse();</span>
+<span class="x">        }</span>
+<span class="x">    }</span>
+<span class="x">}</span>
+</pre></div>
+
+
+<p>代码分析：
+1. 组件<em>Widget_Options</em>读取数据库表<em>typecho_options</em>中<em>name</em>的值为<em>routingTable</em>的记录，反序列化该记录中的<em>value</em>列，得到一个路由表数组。
+2. 默认情况下，这个路由表数组的有效路由保存在索引值为0的元素里面，如果不存在该索引，则解析路由并将结果更新到数据库。
+3. 最后，将 <code>$options-&gt;routingTable</code> 的值保存到 <code>Typecho_Router::$_routingTable</code> 中。</p>
+<hr />
+<!--more-->
+
+<h4>二、开始路由分发</h4>
+<p>typecho/var/Typecho/Router.php</p>
+<div class="highlight"><pre><span></span><span class="x">class Typecho_Router</span>
+<span class="x">{</span>
+<span class="x">    public static function dispatch()</span>
+<span class="x">    {</span>
+<span class="x">        /** 获取PATHINFO */</span>
+<span class="x">        $pathInfo = self::getPathInfo();</span>
+
+<span class="x">        foreach (self::$_routingTable as $key =&gt; $route) {</span>
+<span class="x">            if (preg_match($route[&#39;regx&#39;], $pathInfo, $matches)) {</span>
+<span class="x">                self::$current = $key;</span>
+
+<span class="x">                try {</span>
+<span class="x">                    /** 载入参数 */</span>
+<span class="x">                    $params = NULL;</span>
+
+<span class="x">                    if (!empty($route[&#39;params&#39;])) {</span>
+<span class="x">                        unset($matches[0]);</span>
+<span class="x">                        $params = array_combine($route[&#39;params&#39;], $matches);</span>
+<span class="x">                    }</span>
+
+<span class="x">                    $widget = Typecho_Widget::widget($route[&#39;widget&#39;], NULL, $params);</span>
+
+<span class="x">                    if (isset($route[&#39;action&#39;])) {</span>
+<span class="x">                        $widget-&gt;{$route[&#39;action&#39;]}();</span>
+<span class="x">                    }</span>
+
+<span class="x">                    return;</span>
+
+<span class="x">                } catch (Exception $e) {</span>
+<span class="x">                    if (404 == $e-&gt;getCode()) {</span>
+<span class="x">                        Typecho_Widget::destory($route[&#39;widget&#39;]);</span>
+<span class="x">                        continue;</span>
+<span class="x">                    }</span>
+
+<span class="x">                    throw $e;</span>
+<span class="x">                }</span>
+<span class="x">            }</span>
+<span class="x">        }</span>
+
+<span class="x">        /** 载入路由异常支持 */</span>
+<span class="x">        throw new Typecho_Router_Exception(&quot;Path &#39;{$pathInfo}&#39; not found&quot;, 404);</span>
+<span class="x">    }</span>
+<span class="x">}</span>
+
+<span class="x">// 路由表长这个样子：</span>
+<span class="x">Array</span>
+<span class="x">(</span>
+<span class="x">    [index] =&gt; Array</span>
+<span class="x">        (</span>
+<span class="x">            [url] =&gt; /</span>
+<span class="x">            [widget] =&gt; Widget_Archive</span>
+<span class="x">            [action] =&gt; render</span>
+<span class="x">            [regx] =&gt; |^[/]?$|</span>
+<span class="x">            [format] =&gt; /</span>
+<span class="x">            [params] =&gt; Array()</span>
+<span class="x">        )</span>
+
+<span class="x">    [archive] =&gt; Array</span>
+<span class="x">        (</span>
+<span class="x">            [url] =&gt; /blog/</span>
+<span class="x">            [widget] =&gt; Widget_Archive</span>
+<span class="x">            [action] =&gt; render</span>
+<span class="x">            [regx] =&gt; |^/blog[/]?$|</span>
+<span class="x">            [format] =&gt; /blog/</span>
+<span class="x">            [params] =&gt; Array()</span>
+<span class="x">        )</span>
+<span class="x">)</span>
+</pre></div>
+
+
+<p>代码分析：
+1. 获取 <em>PATHINFO</em>，比如用户访问的URL为：<em>http://localhost/typecho/index.php/123/456?a=1</em>，则PATHINFO为：<em>/123/456</em>。
+2. 根据 PATHINFO 的值，在路由表中遍历，寻找是否有匹配的路由规则。(主要代码：<code>preg_match($route['regx'], $pathInfo, $matches</code>)
+3. 以 PATHINFO 为 <em>/</em> 为例。遍历路由表，最终找到匹配项：<em>index</em>。接着，调用 <code>Typecho_Widget::widget("Widget_Archive", NULL, $params)</code>生成一个 <em>Widget_Archive</em> 实例。如果匹配值存在 <em>action</em> 索引，则获取该匹配值索引号为 <em>action</em> 的值，这里为 <em>render</em>。接着，调用 <em>Widget_Archive</em> 的 <em>render</em> 方法。（部分代码：<code>$widget-&gt;{$route['action']}();</code>）</p>
+<hr />
+<h3>相关资料</h3>
+<p><a href="http://docs.typecho.org/develop/route">typecho 设计文档 - Router</a></p>
+<blockquote>
+<p>备注：官方的设计文档很久没更新（最后编辑时间：2013/10/21 14:55），和现在最新的 <em>typecho</em> 代码有很大出入。</p>
+</blockquote></div>
+	<hr>
+	<h2>Comments</h2>
+</div>
+		</div>
+	</div> 	<!-- <hr> -->
+</div> <!-- /container -->
+<footer class="aw-footer bg-danger">
+	<div class="container"> <!-- footer -->
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">
+				<div class="row">
+					<div class="col-md-3">
+						<h4>Navigation</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="">zqhong</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Author</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="#">You can add links in your config file</a></li>
+							<li><a href="#">Another social link</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Categories</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="/category/PHP.html">PHP (7)</a></li>
+							<li><a href="/category/Python.html">Python (2)</a></li>
+							<li><a href="/category/Python,-WEB.html">Python, WEB (1)</a></li>
+							<li><a href="/category/WEB.html">WEB (2)</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Links</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="http://getpelican.com/">Pelican</a></li>
+							<li><a href="http://python.org/">Python.org</a></li>
+							<li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+							<li><a href="#">You can modify those links in your config file</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12 text-center center-block aw-bottom">
+			<p>&copy; zqhong 2014</p>
+			<p>Powered by Pelican</p>
+		</div>
+	</div>
+</div>
+<!-- JavaScript -->
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+	$("div.collapseheader").click(function () {
+		$header = $(this).children("span").first();
+		$codearea = $(this).children(".input_area");
+		$codearea.slideToggle(500, function () {
+			$header.text(function () {
+				return $codearea.is(":visible") ? "Collapse Code" : "Expand Code";
+			});
+		});
+	});
+});
+</script>
+</body>
+</html>

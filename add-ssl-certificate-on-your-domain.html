@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>全站使用HTTPS（StartSSL+Nginx） — zqhong</title>
+	<meta name="description" content="Title: 全站使用HTTPS（StartSSL+Nginx）; Date: 2016-01-21; Author: zqhong">
+	<meta name="author" content="zqhong">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+	<!--[if lt IE 9]>
+		<script src="/theme/html5.js"></script>
+		<![endif]-->
+	<link href="/theme/css/ipython.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/simplex/bootstrap.min.css" rel="stylesheet">
+	<link href="/theme/css/local.css" rel="stylesheet">
+	<link href="/theme/css/pygments.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+	<div class="page-header">
+		<h1><a href="/">zqhong</a>
+			<br><small>Simplicity is the ultimate sophistication</small></h1>	</div>
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+<div class="article" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="text-center article-header">
+		<h1 itemprop="name headline" class="article-title">全站使用HTTPS（StartSSL+Nginx）</h1>
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<h4 itemprop="name">zqhong</h4>
+		</span>
+		<time datetime="2016-01-21T14:01:00+08:00" itemprop="datePublished">Thu 21 January 2016</time>
+	</div>
+	<div>
+		Category:
+		<span itemprop="articleSection">
+			<a href="/category/web.html" rel="category">WEB</a>
+		</span>
+	</div>
+ 
+	<div>
+		Tags:
+		<span itemprop="keywords">
+			<a href="/tag/ssl.html" rel="tag">SSL</a>
+		</span>
+		<span itemprop="keywords">
+			<a href="/tag/nginx.html" rel="tag">Nginx</a>
+		</span>
+	</div>
+	<div itemprop="articleBody" class="article-body"><h3>1、开通企业邮箱</h3>
+<p>这里使用的是阿里云企业邮箱，大致步骤：<strong>1、添加解析   2、设置密码   3、分配员工账号</strong>。具体请参考：<a href="https://help.aliyun.com/knowledge_detail/6555183.html?spm=5176.200037.n2.7.mA5m6G">阿里云企业邮箱开通指南</a>。</p>
+<blockquote>
+<p>备注：申请SSL证书需要确认申请人是否拥有域名的管理权。一般会发验证链接到 postmaster@yourdomain.com 或 admin@yourdomain.com。</p>
+</blockquote>
+<hr />
+<h3>2、申请证书</h3>
+<p><em>i.zqhong.com</em>现在使用的是<a href="https://www.startssl.com/">StartSSL</a>的免费证书。关于SSL证书的选择，可以参考：<a href="https://qiaodahai.com/cheapest-ssl-certificates.html">最便宜的SSL证书 - 乔大海</a>。申请过程很简单，这里不再说明。</p>
+<!--more-->
+
+<hr />
+<h3>3、配置服务器</h3>
+<p>以<em>nginx</em>为例。</p>
+<div class="highlight"><pre><span></span># /etc/nginx/conf.d/default.conf
+server {
+    server_name yourdomain.com;
+    listen 443;
+    ssl on;
+    ssl_certificate /usr/local/nginx/conf/server.crt;
+    ssl_certificate_key /usr/local/nginx/conf/server.key;
+}
+</pre></div>
+
+
+<p>如果是<em>Apache</em>，请参考：<a href="https://www.sslshopper.com/apache-server-ssl-installation-instructions.html">Apache SSL Installation Instructions</a>、<a href="https://httpd.apache.org/docs/2.4/ssl/ssl_howto.html">SSL/TLS Strong Encryption: How-To</a>、<a href="http://blog.51yip.com/apachenginx/958.html">openssl建立证书，非常详细配置ssl+apache</a>。下面是简单的配置：</p>
+<div class="highlight"><pre><span></span>LoadModule ssl_module modules/mod_ssl.so
+
+Listen 443
+<span class="nt">&lt;VirtualHost</span> <span class="err">*:443</span><span class="nt">&gt;</span>
+    ServerName www.example.com
+    SSLEngine on
+    SSLCertificateFile &quot;/path/to/www.example.com.cert&quot;
+    SSLCertificateKeyFile &quot;/path/to/www.example.com.key&quot;
+<span class="nt">&lt;/VirtualHost&gt;</span>
+</pre></div>
+
+
+<h3>4、测试</h3>
+<p><a href="https://www.ssllabs.com/ssltest/index.html">ssllabs</a>提供免费的SSL测试，提交你想测试的域名即可。或者直接使用现代浏览器访问你要测试的域名。</p>
+<hr />
+<h3>5、提交你的域名到 HSTS Preload Submission</h3>
+<p>将域名提交到 <a href="https://hstspreload.appspot.com/">HSTS Preload Submission</a>的好处是：
+1. 现代浏览器默认会使用 https 访问你的网站，无论你有没有加 https
+2. 如果你的域名在浏览器内置的HSTS列表中，即使第一次访问你的网站，也会使用 https 连接。保证了初始连接的安全。</p>
+<p>域名提交成功后，需要等几周的时间。如果你的域名出现在 <a href="https://code.google.com/p/chromium/codesearch#chromium/src/net/http/transport_security_state_static.json">transport_security_state_static.json</a> 就说明已经成功啦。
+关于HSTS的更多信息，可以查看：<a href="https://zh.wikipedia.org/wiki/HTTP%E4%B8%A5%E6%A0%BC%E4%BC%A0%E8%BE%93%E5%AE%89%E5%85%A8">HTTP严格传输安全</a></p>
+<hr />
+<h3>6、参考配置</h3>
+<p>下面是我使用的配置，环境是：Debian + Nginx + PHP-FPM。详细请参考：<a href="https://www.textarea.com/zhicheng/fenxiang-yige-https-a-di-nginx-peizhi-320/">分享一个 HTTPS A+ 的 nginx 配置</a></p>
+<blockquote>
+<p>备注：使用<code>openssl dhparam -dsaparam -out dhparam.pem 4096</code> 生成 <em>dhparam.pem</em>。这里如果不加<strong>-dsaparam</strong>参数速度会相当的慢。</p>
+</blockquote>
+<div class="highlight"><pre><span></span><span class="err">#</span> <span class="o">/</span><span class="nt">etc</span><span class="o">/</span><span class="nt">nginx</span><span class="o">/</span><span class="nt">conf</span><span class="nc">.d</span><span class="o">/</span><span class="nt">i</span><span class="nc">.zqhong.com.conf</span>
+<span class="nt">server</span> <span class="p">{</span>
+    <span class="err">#</span> <span class="err">博客</span>
+    <span class="n">server_name</span>  <span class="n">i</span><span class="o">.</span><span class="n">zqhong</span><span class="o">.</span><span class="n">com</span><span class="p">;</span>
+    <span class="n">listen</span> <span class="m">443</span><span class="p">;</span>
+    <span class="n">add_header</span> <span class="n">Strict</span><span class="o">-</span><span class="n">Transport</span><span class="o">-</span><span class="n">Security</span> <span class="s2">&quot;max-age=31536000; includeSubDomains; preload&quot;</span><span class="p">;</span>
+    <span class="n">index</span> <span class="n">index</span><span class="o">.</span><span class="n">html</span> <span class="n">index</span><span class="o">.</span><span class="n">htm</span> <span class="n">index</span><span class="o">.</span><span class="n">php</span><span class="p">;</span>
+    <span class="n">root</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">xxxx</span><span class="p">;</span>
+    <span class="n">include</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">secure_params</span><span class="p">;</span>
+
+    <span class="n">location</span> <span class="o">/</span> <span class="err">{</span>
+            <span class="m">#rewrit</span><span class="n">e</span> <span class="n">rule</span> <span class="n">for</span> <span class="n">typecho</span> <span class="n">staticize</span>
+             <span class="n">if</span> <span class="p">(</span><span class="o">!-</span><span class="n">e</span> <span class="err">$</span><span class="n">request_filename</span><span class="p">)</span> <span class="err">{</span>
+                 <span class="n">rewrite</span> <span class="o">^/</span><span class="p">(</span><span class="o">.*</span><span class="p">)</span><span class="err">$</span> <span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">php</span><span class="o">/</span><span class="err">$</span><span class="m">1</span> <span class="n">last</span><span class="p">;</span>
+             <span class="p">}</span>
+    <span class="err">}</span>
+    <span class="nt">location</span> <span class="o">~</span> <span class="o">^.+</span><span class="err">\</span><span class="nc">.php</span> <span class="p">{</span>
+            <span class="n">fastcgi_pass</span> <span class="n">unix</span><span class="o">:/</span><span class="n">var</span><span class="o">/</span><span class="n">run</span><span class="o">/</span><span class="n">php5</span><span class="o">-</span><span class="n">fpm</span><span class="o">.</span><span class="n">sock</span><span class="p">;</span>
+            <span class="n">fastcgi_index</span> <span class="n">index</span><span class="o">.</span><span class="n">php</span><span class="p">;</span>
+            <span class="n">fastcgi_split_path_info</span> <span class="o">^</span><span class="p">(</span><span class="o">.+</span><span class="err">\</span><span class="o">.</span><span class="n">php</span><span class="p">)(</span><span class="o">/.+</span><span class="p">)</span><span class="err">$</span><span class="p">;</span>
+            <span class="n">fastcgi_param</span> <span class="n">SCRIPT_FILENAME</span> <span class="err">$</span><span class="n">document_root</span><span class="err">$</span><span class="n">fastcgi_script_name</span><span class="p">;</span>
+            <span class="n">include</span> <span class="n">fastcgi_params</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="err">}</span>
+
+<span class="err">#</span> <span class="o">/</span><span class="nt">etc</span><span class="o">/</span><span class="nt">nginx</span><span class="o">/</span><span class="nt">secure_params</span>
+<span class="nt">ssl</span> <span class="nt">on</span><span class="o">;</span>
+<span class="nt">ssl_certificate</span> <span class="o">/</span><span class="nt">root</span><span class="o">/</span><span class="nt">xxx</span><span class="nc">.crt</span><span class="o">;</span>
+<span class="nt">ssl_certificate_key</span> <span class="o">/</span><span class="nt">root</span><span class="o">/</span><span class="nt">xxx</span><span class="nc">.key</span><span class="o">;</span>
+<span class="nt">ssl_dhparam</span> <span class="o">/</span><span class="nt">root</span><span class="o">/</span><span class="nt">dhparam</span><span class="nc">.pem</span><span class="o">;</span>
+<span class="nt">ssl_session_cache</span> <span class="nt">shared</span><span class="nd">:SSL:10m</span><span class="o">;</span>
+<span class="nt">ssl_session_timeout</span> <span class="nt">10m</span><span class="o">;</span>
+<span class="nt">ssl_protocols</span> <span class="nt">TLSv1</span> <span class="nt">TLSv1</span><span class="nc">.1</span> <span class="nt">TLSv1</span><span class="nc">.2</span><span class="o">;</span>
+<span class="nt">ssl_stapling</span> <span class="nt">on</span><span class="o">;</span>
+<span class="nt">ssl_ciphers</span> <span class="s2">&quot;ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA&quot;</span><span class="o">;</span>
+<span class="nt">ssl_prefer_server_ciphers</span> <span class="nt">on</span><span class="o">;</span>
+<span class="nt">add_header</span> <span class="nt">Strict-Transport-Security</span> <span class="s2">&quot;max-age=31536000; includeSubDomains; preload&quot;</span><span class="o">;</span>
+</pre></div>
+
+
+<hr />
+<h3>相关术语</h3>
+<h4><a href="https://zh.wikipedia.org/wiki/%E8%B6%85%E6%96%87%E6%9C%AC%E4%BC%A0%E8%BE%93%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE">HTTPS（维基百科）</a></h4>
+<p>超文本传输安全协议（英语：Hypertext Transfer Protocol Secure，缩写：HTTPS）是一种网络安全传输协议。在计算机网络上，<strong>HTTPS经由超文本传输协议进行通讯，但利用SSL/TLS来对数据包进行加密</strong>。HTTPS开发的主要目的，是提供对网络服务器的身份认证，保护交换数据的隐私与完整性。</p>
+<h4><a href="https://zh.wikipedia.org/wiki/HTTP%E4%B8%A5%E6%A0%BC%E4%BC%A0%E8%BE%93%E5%AE%89%E5%85%A8">HSTS（维基百科）</a></h4>
+<p>HTTP严格传输安全（英语：HTTP Strict Transport Security，缩写：HSTS）是一套由互联网工程任务组发布的互联网安全策略机制。网站可以选择使用HSTS策略，来<strong>让浏览器强制使用HTTPS与网站进行通信，以减少会话劫持风险</strong>。</p>
+<hr />
+<h3>相关链接</h3>
+<p><a href="https://help.aliyun.com/knowledge_detail/6555183.html?spm=5176.200037.n2.7.mA5m6G">阿里云企业邮箱开通指南</a>
+<a href="https://www.textarea.com/zhicheng/fenxiang-yige-https-a-di-nginx-peizhi-320/">分享一个 HTTPS A+ 的 nginx 配置</a>
+<a href="https://hstspreload.appspot.com/">HSTS Preload Submission</a>
+<a href="https://www.ssllabs.com/ssltest/index.html">ssllabs</a>
+<a href="https://www.sslshopper.com/apache-server-ssl-installation-instructions.html">Apache SSL Installation Instructions</a>
+<a href="https://httpd.apache.org/docs/2.4/ssl/ssl_howto.html">SSL/TLS Strong Encryption: How-To</a>
+<a href="http://blog.51yip.com/apachenginx/958.html">openssl建立证书，非常详细配置ssl+apache</a></p></div>
+	<hr>
+	<h2>Comments</h2>
+</div>
+		</div>
+	</div> 	<!-- <hr> -->
+</div> <!-- /container -->
+<footer class="aw-footer bg-danger">
+	<div class="container"> <!-- footer -->
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">
+				<div class="row">
+					<div class="col-md-3">
+						<h4>Navigation</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="">zqhong</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Author</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="#">You can add links in your config file</a></li>
+							<li><a href="#">Another social link</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Categories</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="/category/PHP.html">PHP (7)</a></li>
+							<li><a href="/category/Python.html">Python (2)</a></li>
+							<li><a href="/category/Python,-WEB.html">Python, WEB (1)</a></li>
+							<li><a href="/category/WEB.html">WEB (2)</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Links</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="http://getpelican.com/">Pelican</a></li>
+							<li><a href="http://python.org/">Python.org</a></li>
+							<li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+							<li><a href="#">You can modify those links in your config file</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12 text-center center-block aw-bottom">
+			<p>&copy; zqhong 2014</p>
+			<p>Powered by Pelican</p>
+		</div>
+	</div>
+</div>
+<!-- JavaScript -->
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+	$("div.collapseheader").click(function () {
+		$header = $(this).children("span").first();
+		$codearea = $(this).children(".input_area");
+		$codearea.slideToggle(500, function () {
+			$header.text(function () {
+				return $codearea.is(":visible") ? "Collapse Code" : "Expand Code";
+			});
+		});
+	});
+});
+</script>
+</body>
+</html>

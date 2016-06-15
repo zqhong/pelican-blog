@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>PhpStorm 使用 Composer 安装配置 PHPUnit — zqhong</title>
+	<meta name="description" content="Title: PhpStorm 使用 Composer 安装配置 PHPUnit; Date: 2016-03-02; Author: zqhong">
+	<meta name="author" content="zqhong">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+	<!--[if lt IE 9]>
+		<script src="/theme/html5.js"></script>
+		<![endif]-->
+	<link href="/theme/css/ipython.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/simplex/bootstrap.min.css" rel="stylesheet">
+	<link href="/theme/css/local.css" rel="stylesheet">
+	<link href="/theme/css/pygments.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+	<div class="page-header">
+		<h1><a href="/">zqhong</a>
+			<br><small>Simplicity is the ultimate sophistication</small></h1>	</div>
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+<div class="article" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="text-center article-header">
+		<h1 itemprop="name headline" class="article-title">PhpStorm 使用 Composer 安装配置 PHPUnit</h1>
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<h4 itemprop="name">zqhong</h4>
+		</span>
+		<time datetime="2016-03-02T14:09:00+08:00" itemprop="datePublished">Wed 02 March 2016</time>
+	</div>
+	<div>
+		Category:
+		<span itemprop="articleSection">
+			<a href="/category/php.html" rel="category">PHP</a>
+		</span>
+	</div>
+ 
+	<div>
+		Tags:
+		<span itemprop="keywords">
+			<a href="/tag/typecho.html" rel="tag">typecho</a>
+		</span>
+		<span itemprop="keywords">
+			<a href="/tag/php.html" rel="tag">php</a>
+		</span>
+		<span itemprop="keywords">
+			<a href="/tag/widget.html" rel="tag">widget</a>
+		</span>
+	</div>
+	<div itemprop="articleBody" class="article-body"><h3>配置 Composer</h3>
+<h4>Command Line Tool Support 添加 Composer</h4>
+<p><strong>File - Settings - Tools - Command Line Tool Support</strong>，配置 Composer。
+<img alt="PhpStorm-Composer-Settings" src="https://www.sinaimg.cn/large/ce744de6gw1f1ihqi13ypj20tr0jatcf.jpg" /></p>
+<blockquote>
+<p>备注：如果在 Tools 中没有看到 Command Line Tool Support，请在 Plugins 启用或安装 Command Line Tool Support。</p>
+</blockquote>
+<h4>使用 Composer 添加 PHPUnit</h4>
+<p><strong>Tools - Composer - Add Dependency</strong>，搜索 <strong>phpunit/phpunit</strong>，这里安装的是 <strong>PHPUnit 4.8.23</strong>。
+<img alt="Search-PHPUnit" src="https://www.sinaimg.cn/large/ce744de6gw1f1ihzdiu7fj20n20f0dia.jpg" /></p>
+<blockquote>
+<p>备注：PhpStorm 9.0 对 PHPUnit 5.x 的支持不好。如果需要使用 PHPUnit 5.x，请尝试升级使用 PhpStorm 10。另外，Composer 在国内不怎么稳定，如果一直无法获取 packages，请尝试使用国外代理 或 使用 Composer 镜像。</p>
+</blockquote>
+<!--more-->
+
+<hr />
+<h3>配置 PHPUnit 和 运行测试</h3>
+<h4>配置 PHPUnit</h4>
+<p><strong>File - Settings - Languages &amp; Frameworks - PHP - PHPUnit</strong>，因为我们使用的是 Composer 安装，所以选择第二选项 "<em>Use custom autoloader</em>"。然后，可以根据需要配置 <em>Default configuration file</em>（默认配置文件） 和 <em>Default bootstrap file</em>（默认启动文件，运行测试文件前会先加载这个文件）。
+<img alt="PHPUnit-Configuration" src="https://www.sinaimg.cn/large/ce744de6gw1f1iic57zsvj20tr0lugol.jpg" /></p>
+<h4>创建测试</h4>
+<p>打开需要测试的文件，<strong>Navigate - Test (Ctrl+Shift+T) - Create New Test</strong>，根据自己的需要，输入文件名、文件路径等信息。
+<img alt="Create-New-Test" src="https://www.sinaimg.cn/large/ce744de6gw1f1iih4l8drj20aj0b8dhd.jpg" /></p>
+<h4>执行测试</h4>
+<p>勾选 <strong>View - Toolbar</strong>，显示工具栏。然后，打开你的测试文件。接着，打开工具栏中的 "<em>Edit Configurations</em>"。根据自己的需要配置。最后点击工具栏中的 <strong>Run</strong> 图标。
+<img alt="Click-Edit-Configrations" src="https://www.sinaimg.cn/large/ce744de6gw1f1iik0nil6j20ss068ace.jpg" />
+<img alt="Run/Debug Configurations" src="https://www.sinaimg.cn/large/ce744de6gw1f1iiloi47ej20uc0jkdja.jpg" />
+<img alt="Start-Run" src="https://www.sinaimg.cn/large/ce744de6gw1f1iip191ksj20i502jt9a.jpg" /></p>
+<hr />
+<h3>坑</h3>
+<p>PhpStorm 9.0 不支持 PHPUnit 5.2，换成 PHPUnit 4.8 就行了。PhpStorm 配置 PHPUnit 不难，但是因为这个坑。。浪费了不少时间。</p>
+<hr />
+<h3>相关资料</h3>
+<p><a href="https://confluence.jetbrains.com/display/PhpStorm/PHPUnit+support+in+PhpStorm">PHPUnit support in PhpStorm</a>
+<a href="https://www.jetbrains.com/phpstorm/help/enabling-phpunit-support.html">Enabling PHPUnit Support</a>
+<a href="http://blog.coinidea.com/web%E5%BC%80%E5%8F%91/php-1088.html">PHPUnit安装配置及样例</a></p></div>
+	<hr>
+	<h2>Comments</h2>
+</div>
+		</div>
+	</div> 	<!-- <hr> -->
+</div> <!-- /container -->
+<footer class="aw-footer bg-danger">
+	<div class="container"> <!-- footer -->
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">
+				<div class="row">
+					<div class="col-md-3">
+						<h4>Navigation</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="">zqhong</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Author</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="#">You can add links in your config file</a></li>
+							<li><a href="#">Another social link</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Categories</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="/category/PHP.html">PHP (7)</a></li>
+							<li><a href="/category/Python.html">Python (2)</a></li>
+							<li><a href="/category/Python,-WEB.html">Python, WEB (1)</a></li>
+							<li><a href="/category/WEB.html">WEB (2)</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Links</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="http://getpelican.com/">Pelican</a></li>
+							<li><a href="http://python.org/">Python.org</a></li>
+							<li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+							<li><a href="#">You can modify those links in your config file</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12 text-center center-block aw-bottom">
+			<p>&copy; zqhong 2014</p>
+			<p>Powered by Pelican</p>
+		</div>
+	</div>
+</div>
+<!-- JavaScript -->
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+	$("div.collapseheader").click(function () {
+		$header = $(this).children("span").first();
+		$codearea = $(this).children(".input_area");
+		$codearea.slideToggle(500, function () {
+			$header.text(function () {
+				return $codearea.is(":visible") ? "Collapse Code" : "Expand Code";
+			});
+		});
+	});
+});
+</script>
+</body>
+</html>

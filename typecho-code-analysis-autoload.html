@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>typecho 源码分析：1、Autoload — zqhong</title>
+	<meta name="description" content="Title: typecho 源码分析：1、Autoload; Date: 2016-02-26; Author: zqhong">
+	<meta name="author" content="zqhong">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+	<!--[if lt IE 9]>
+		<script src="/theme/html5.js"></script>
+		<![endif]-->
+	<link href="/theme/css/ipython.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/simplex/bootstrap.min.css" rel="stylesheet">
+	<link href="/theme/css/local.css" rel="stylesheet">
+	<link href="/theme/css/pygments.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+	<div class="page-header">
+		<h1><a href="/">zqhong</a>
+			<br><small>Simplicity is the ultimate sophistication</small></h1>	</div>
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+<div class="article" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="text-center article-header">
+		<h1 itemprop="name headline" class="article-title">typecho 源码分析：1、Autoload</h1>
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<h4 itemprop="name">zqhong</h4>
+		</span>
+		<time datetime="2016-02-26T14:50:00+08:00" itemprop="datePublished">Fri 26 February 2016</time>
+	</div>
+	<div>
+		Category:
+		<span itemprop="articleSection">
+			<a href="/category/php.html" rel="category">PHP</a>
+		</span>
+	</div>
+ 
+	<div>
+		Tags:
+		<span itemprop="keywords">
+			<a href="/tag/typecho.html" rel="tag">typecho</a>
+		</span>
+		<span itemprop="keywords">
+			<a href="/tag/php.html" rel="tag">php</a>
+		</span>
+		<span itemprop="keywords">
+			<a href="/tag/autoload.html" rel="tag">autoload</a>
+		</span>
+	</div>
+	<div itemprop="articleBody" class="article-body"><h3>前言</h3>
+<p>这里有几点需要注意的：
+1. 分析的 <a href="https://github.com/typecho/typecho/releases/tag/v1.0-14.10.10-release">Typecho</a> 版本为 <strong>1.0 (14.10.10)</strong>。
+2. 之前没接触过自动加载类的，请参考 PHP 官方手册的这篇文章：<a href="http://php.net/manual/zh/language.oop5.autoload.php">PHP：自动加载类</a>。如果想深入理解这个呢，请看这个：<a href="https://github.com/qinjx/adv_php_book/blob/master/class_autoload.md">细说“PHP类库自动加载”</a>。
+3. 为了减少篇幅和便于理解，列出的代码仅是源码的部分。
+4. 文件路径中，<strong>typecho/</strong> 表示 typecho 的根目录。</p>
+<hr />
+<h3>typecho 自动加载机制</h3>
+<h4>一、入口文件</h4>
+<p>目前许多 web 程序都使用单入口模式。即使用 <em>index.php</em> 作为入口文件，加载配置文件进行初始化，利用路由分析URI，调用合适的类方法解决问题并输出结果。typecho 也是使用单入口模式。因此，我们照例看 <em>index.php</em> 这个文件。</p>
+<p><em>typecho/index.php</em></p>
+<div class="highlight"><pre><span></span><span class="x">if (!defined(&#39;__TYPECHO_ROOT_DIR__&#39;) &amp;&amp; !@include_once &#39;config.inc.php&#39;) {</span>
+<span class="x">    file_exists(&#39;./install.php&#39;) ? header(&#39;Location: install.php&#39;) : print(&#39;Missing Config File&#39;);</span>
+<span class="x">    exit;</span>
+<span class="x">}</span>
+</pre></div>
+
+
+<p>代码分析：
+1. 如果还没完成安装（不存在文件 <em>config.inc.php</em> ），这个时候会将浏览器重定向到 <em>install.php</em>，完成初始化安装。
+2. 加载配置文件 <em>config.inc.php</em>（如果已经完成初始化）</p>
+<!--more-->
+
+<h4>二、初始化配置文件</h4>
+<p><em>config.inc.php</em></p>
+<div class="highlight"><pre><span></span><span class="x">define(&#39;__TYPECHO_ROOT_DIR__&#39;, dirname(__FILE__));</span>
+
+<span class="x">define(&#39;__TYPECHO_PLUGIN_DIR__&#39;, &#39;/usr/plugins&#39;);</span>
+
+<span class="x">define(&#39;__TYPECHO_THEME_DIR__&#39;, &#39;/usr/themes&#39;);</span>
+
+<span class="x">define(&#39;__TYPECHO_ADMIN_DIR__&#39;, &#39;/admin/&#39;);</span>
+
+<span class="x">@set_include_path(get_include_path() . PATH_SEPARATOR .</span>
+<span class="x">__TYPECHO_ROOT_DIR__ . &#39;/var&#39; . PATH_SEPARATOR .</span>
+<span class="x">__TYPECHO_ROOT_DIR__ . __TYPECHO_PLUGIN_DIR__);</span>
+
+<span class="x">require_once &#39;Typecho/Common.php&#39;;</span>
+
+<span class="x">Typecho_Common::init();</span>
+</pre></div>
+
+
+<p>代码分析：
+1. 定义目录常量，比如：__TYPECHO_ROOT_DIR__、__TYPECHO_PLUGIN_DIR__、__TYPECHO_THEME_DIR__等，便于以后使用。
+2. 设置包含路径。这个东西类似于 Windows 的环境变量。假设你在 Windows 的命令提示符下输入命令 <code>php</code>，首先，系统会在当前路径下着有没有名字叫 <em>php</em> 的执行文件。如果没有，系统会再去环境变量 <em>PATH</em> 中设置的路径中再查找有没有叫 <em>php</em> 的可执行文件。这里的作用是一样的，让系统在原先的<em>include_path</em> 和用户自己设置的 <em>include_path</em> 中寻找用户需要的 php 文件。
+3. 初始化程序（<code>Typecho_Common::init()</code>）</p>
+<blockquote>
+<p>备注：如果需要看系统默认设置了哪些 <em>include_path</em>，请看 <em>php.ini</em> 这个文件，里面搜索 <em>include_path</em> 即可。</p>
+</blockquote>
+<h4>三、初始化程序</h4>
+<p>这里是实现自动加载类的重点，而且也就几行代码。请认真看看</p>
+<blockquote>
+<p>备注：当然，现在一般都使用 Composer，自动加载类不需要自己实现。</p>
+</blockquote>
+<p><em>typecho/var/Typecho/Common.php</em></p>
+<div class="highlight"><pre><span></span><span class="x">class Typecho_Common</span>
+<span class="x">{</span>
+<span class="x">    public static function __autoLoad($className)</span>
+<span class="x">    {</span>
+<span class="x">        @include_once str_replace(array(&#39;\\&#39;, &#39;_&#39;), &#39;/&#39;, $className) . &#39;.php&#39;;</span>
+<span class="x">    }</span>
+
+<span class="x">    public static function init()</span>
+<span class="x">    {</span>
+<span class="x">        if (function_exists(&#39;spl_autoload_register&#39;)) {</span>
+<span class="x">            spl_autoload_register(array(&#39;Typecho_Common&#39;, &#39;__autoLoad&#39;));</span>
+<span class="x">        } else {</span>
+<span class="x">            function __autoLoad($className) {</span>
+<span class="x">                Typecho_Common::__autoLoad($className);</span>
+<span class="x">            }</span>
+<span class="x">        }</span>
+<span class="x">    }</span>
+<span class="x">}</span>
+</pre></div>
+
+
+<p>代码分析：
+1. 注册 <em>Typecho_Common::__autoLoad</em> 方法，当程序尝试加载未定义的类时，会启动该方法。
+2. 再看看 <em>Typecho_Common::__autoLoad</em> 这个方法，该方法将类名中的"\"和"_"替换为"/"，接着调用 require_once 包含这个类。比如，"Typecho_Db"，最终会被替换为："Typecho/Db.php"。接着调用 require_once "Typecho/Db.php"。最后在 include_path 中的 <em>typecho/var/Typecho/Db.php</em> 中找到我们所需要的类文件。</p>
+<hr />
+<h3>相关资料</h3>
+<p><a href="http://php.net/manual/zh/language.oop5.autoload.php">PHP：自动加载类</a>
+<a href="https://github.com/qinjx/adv_php_book/blob/master/class_autoload.md">细说“PHP类库自动加载”</a>
+<a href="https://getcomposer.org/">Composer</a></p></div>
+	<hr>
+	<h2>Comments</h2>
+</div>
+		</div>
+	</div> 	<!-- <hr> -->
+</div> <!-- /container -->
+<footer class="aw-footer bg-danger">
+	<div class="container"> <!-- footer -->
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">
+				<div class="row">
+					<div class="col-md-3">
+						<h4>Navigation</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="">zqhong</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Author</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="#">You can add links in your config file</a></li>
+							<li><a href="#">Another social link</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Categories</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="/category/PHP.html">PHP (7)</a></li>
+							<li><a href="/category/Python.html">Python (2)</a></li>
+							<li><a href="/category/Python,-WEB.html">Python, WEB (1)</a></li>
+							<li><a href="/category/WEB.html">WEB (2)</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Links</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="http://getpelican.com/">Pelican</a></li>
+							<li><a href="http://python.org/">Python.org</a></li>
+							<li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+							<li><a href="#">You can modify those links in your config file</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12 text-center center-block aw-bottom">
+			<p>&copy; zqhong 2014</p>
+			<p>Powered by Pelican</p>
+		</div>
+	</div>
+</div>
+<!-- JavaScript -->
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+	$("div.collapseheader").click(function () {
+		$header = $(this).children("span").first();
+		$codearea = $(this).children(".input_area");
+		$codearea.slideToggle(500, function () {
+			$header.text(function () {
+				return $codearea.is(":visible") ? "Collapse Code" : "Expand Code";
+			});
+		});
+	});
+});
+</script>
+</body>
+</html>

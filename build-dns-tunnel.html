@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>使用iodine搭建DNS隧道 — zqhong</title>
+	<meta name="description" content="Title: 使用iodine搭建DNS隧道; Date: 2016-02-16; Author: zqhong">
+	<meta name="author" content="zqhong">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+	<!--[if lt IE 9]>
+		<script src="/theme/html5.js"></script>
+		<![endif]-->
+	<link href="/theme/css/ipython.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/simplex/bootstrap.min.css" rel="stylesheet">
+	<link href="/theme/css/local.css" rel="stylesheet">
+	<link href="/theme/css/pygments.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+	<div class="page-header">
+		<h1><a href="/">zqhong</a>
+			<br><small>Simplicity is the ultimate sophistication</small></h1>	</div>
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+<div class="article" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="text-center article-header">
+		<h1 itemprop="name headline" class="article-title">使用iodine搭建DNS隧道</h1>
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<h4 itemprop="name">zqhong</h4>
+		</span>
+		<time datetime="2016-02-16T13:36:00+08:00" itemprop="datePublished">Tue 16 February 2016</time>
+	</div>
+	<div>
+		Category:
+		<span itemprop="articleSection">
+			<a href="/category/web.html" rel="category">WEB</a>
+		</span>
+	</div>
+ 
+	<div>
+		Tags:
+		<span itemprop="keywords">
+			<a href="/tag/iodine.html" rel="tag">iodine</a>
+		</span>
+		<span itemprop="keywords">
+			<a href="/tag/dns.html" rel="tag">dns</a>
+		</span>
+		<span itemprop="keywords">
+			<a href="/tag/proxy.html" rel="tag">proxy</a>
+		</span>
+		<span itemprop="keywords">
+			<a href="/tag/tunnel.html" rel="tag">tunnel</a>
+		</span>
+	</div>
+	<div itemprop="articleBody" class="article-body"><h3>一、dns配置</h3>
+<p>以我的域名 <strong>zqhong.com</strong> 为例：</p>
+<div class="highlight"><pre><span></span>ns.zqhong.com NS t.zqhong.com. # 注意：最后需要一个 &quot;.&quot;
+t.zqhong.com  A  1.2.3.4       # 1.2.3.4 是你的服务器地址
+</pre></div>
+
+
+<hr />
+<h3>二、服务端配置</h3>
+<ol>
+<li>开启 Linux 的 ipv4 转发功能</li>
+</ol>
+<div class="highlight"><pre><span></span>$ sudo <span class="nb">echo</span> <span class="m">1</span> &gt; /proc/sys/net/ipv4/ip_forward
+<span class="c1"># 接着编辑 /etc/sysctl.conf，设置：net.ipv4.ip_forward=1</span>
+</pre></div>
+
+
+<ol>
+<li>允许DNS通过防火墙</li>
+</ol>
+<div class="highlight"><pre><span></span># iptables -A INPUT -p udp --dport 53 -j ACCEPT
+# iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+# iptables -t filter -A FORWARD -i eth0 -o dns0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+# iptables -t filter -A FORWARD -i dns0 -o eth0 -j ACCEPT
+# iptables-save &gt; /etc/iptables.rules
+</pre></div>
+
+
+<ol>
+<li>启动 iodined</li>
+</ol>
+<div class="highlight"><pre><span></span>$ iodined -f -c -P password -p <span class="m">53</span> 172.16.0.0 ns.zqhong.com
+
+参数说明：
+-f 前段显示，用于调试
+-c 显示客户端请求
+-P 设置密码（最多32个字符）
+-p 监听的端口号，默认为 53
+172.16.0.0    tunnel_ip
+ns.zqhong.com topdomain
+</pre></div>
+
+
+<ol>
+<li>新增用户：</li>
+</ol>
+<div class="highlight"><pre><span></span>$ useradd -p password akira
+</pre></div>
+
+
+<ol>
+<li>允许 ssh 密码登录</li>
+</ol>
+<div class="highlight"><pre><span></span># 编辑文件：/etc/ssh/sshd_config，设置：PasswordAuthentication yes
+# 重启 sshd
+$ service sshd restart
+</pre></div>
+
+
+<!--more-->
+
+<hr />
+<h3>三、客户端配置</h3>
+<ol>
+<li>安装客户端（Windows下，Linux用户请使用包管理器安装或直接源码编译）
+请安装 <strong>NDIS5</strong> 版本的 <a href="https://openvpn.net/index.php/open-source/downloads.html">TAP Driver</a>。接着下载 <a href="http://code.kryo.se/iodine/iodine-0.7.0-windows.zip">iodine windows客户端</a><blockquote>
+<p>备注：NDIS6 版本的 TAP Driver 有兼容性问题。</p>
+</blockquote>
+</li>
+<li>启用客户端</li>
+</ol>
+<div class="highlight"><pre><span></span># 如果这里使用，比 114.114.114.114 修改成其他 DNS服务器试试看。
+# 比如：223.5.5.5（阿里）、8.8.8.8（谷歌）、199.91.73.222（V2EX）、114.114.115.115（114DNS）、180.76.76.76（百度DNS）
+$ iodine.exe -f -P password 114.114.114.114 ns.zqhong.com
+
+参数说明：
+-f 前段显示，用于调试
+-P 密码
+114.114.114.114 nameserver，使用哪个DNS服务器，默认为系统指定的DNS服务器
+ns.zqhong.com   topdomain
+</pre></div>
+
+
+<ol>
+<li>ping（保持连接，如果客户端超过60秒没有连接，会自动断开）</li>
+</ol>
+<div class="highlight"><pre><span></span># 备注：到这一步，我们的客户机已经可以和服务器通讯了。这里的 172.16.0.0 相当于我们的服务器地址 1.2.3.4
+$ ping 172.16.0.0 -t
+</pre></div>
+
+
+<ol>
+<li>ssh 端口转发</li>
+</ol>
+<div class="highlight"><pre><span></span><span class="cp"># 下面这条命令的意思是：所有连接到 127.0.0.1:9999 的请求都会被转发到 172.16.0.0:822</span>
+<span class="err">$</span> <span class="n">ssh</span> <span class="o">-</span><span class="n">D</span> <span class="mi">9999</span> <span class="o">-</span><span class="n">p</span> <span class="mi">822</span> <span class="n">akira</span><span class="mf">@172.16.0.0</span>      <span class="err">#</span> <span class="err">接着输入密码：</span><span class="n">password</span>
+</pre></div>
+
+
+<blockquote>
+<p>备注：这里我们的 ssh 端口是 822，如果不是 822，请修改</p>
+</blockquote>
+<hr />
+<h3>四、代理配置（windows 下）</h3>
+<ol>
+<li>下载 Proxifier，下载地址：<a href="https://www.proxifier.com/distr/ProxifierSetup.exe">https://www.proxifier.com/distr/ProxifierSetup.exe</a></li>
+<li>注册码：（只适用于 Proxifier v3.x Setup版）</li>
+</ol>
+<div class="highlight"><pre><span></span>akira
+MBZKT-ZWTSL-M8X24-3AN7T-NRWU6
+</pre></div>
+
+
+<ol>
+<li>添加代理服务器</li>
+</ol>
+<div class="highlight"><pre><span></span>Profile - Proxy Servers - Add
+
+Address  127.0.0.1
+Port     9999
+Type     SOCKS5
+</pre></div>
+
+
+<ol>
+<li>将刚添加的代理服务器设置为默认代理</li>
+</ol>
+<div class="highlight"><pre><span></span>Profile - Proxification Runles，将上面那个 Rule（127.0.0.1:9999） 设置为 Default。
+</pre></div>
+
+
+<hr />
+<h3>其他</h3>
+<h4>windows 下安装 dig（dig用于调试，这步可忽略）</h4>
+<ol>
+<li>在 <a href="https://www.isc.org/downloads/">https://www.isc.org/downloads/</a> 下载适合你系统的 dig（x86 或 x64）</li>
+<li>解压缩下载好的压缩文件，安装 vcredist_xxx.exe</li>
+<li>复制 l*.dll 和 dig.exe 文件到 c:/windows/system32</li>
+</ol>
+<h4>DNS 测试</h4>
+<p>iodined服务端会响应所支持的请求中以“z”开头的请求，例如：</p>
+<div class="highlight"><pre><span></span>dig -t TXT z456.t1.mydomain.com
+dig -t SRV z456.t1.mydomain.com
+dig -t CNAME z456.t1.mydomain.com
+</pre></div>
+
+
+<p>例子：</p>
+<div class="highlight"><pre><span></span>$ dig -t TXT z456.ns.zqhong.com
+
+<span class="p">;</span> &lt;&lt;&gt;&gt; DiG 9.9.8-P3 &lt;&lt;&gt;&gt; -t TXT z456.ns.zqhong.com
+<span class="p">;;</span> global options: +cmd
+<span class="p">;;</span> Got answer:
+<span class="p">;;</span> -&gt;&gt;HEADER<span class="s">&lt;&lt;- opco</span>de: QUERY, status: NOERROR, id: 37349
+<span class="p">;;</span> flags: qr rd ra<span class="p">;</span> QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+<span class="p">;;</span> OPT PSEUDOSECTION:
+<span class="p">;</span> EDNS: version: 0, flags:<span class="p">;</span> udp: 4000
+<span class="p">;;</span> QUESTION SECTION:
+<span class="p">;</span>z456.ns.zqhong.com.            IN      TXT
+
+<span class="p">;;</span> ANSWER SECTION:
+z456.ns.zqhong.com.     <span class="m">0</span>       IN      TXT     <span class="s2">&quot;tpi0dknro&quot;</span>（被混淆的信息，如果能看到这个，说明 iodined 支持该DNS请求类型，这里是 TXT）
+
+<span class="p">;;</span> Query time: <span class="m">15</span> msec
+<span class="p">;;</span> SERVER: 192.168.18.1#53<span class="o">(</span>192.168.18.1<span class="o">)</span>
+<span class="p">;;</span> WHEN: Mon Feb <span class="m">15</span> 16:51:57 ?D1ú±ê×?ê±?? 2016
+<span class="p">;;</span> MSG SIZE  rcvd: 69
+</pre></div>
+
+
+<hr />
+<h3>相关资料</h3>
+<p><a href="http://dev.kryo.se/iodine/wiki">iodine - wiki</a>
+<a href="http://linux.die.net/man/8/iodine">iodine - Linux man page</a>
+<a href="http://jeremy5189.logdown.com/posts/263029-iodine-ip-over-dns">iodine - IP over DNS</a>
+<a href="http://code.kryo.se/iodine/README.html">iodine - README</a>
+<a href="http://www.putdispenserhere.com/bypassing-captive-portalsairport-pay-restrictions-with-iodine-on-a-debian-vps-guide/">Bypassing Captive Portals/Airport Pay Restrictions with Iodine on a Debian VPS Guide</a>
+<a href="http://linux-wiki.cn/wiki/zh-hans/SSH%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%EF%BC%88%E9%9A%A7%E9%81%93%EF%BC%89">SSH端口转发（隧道）</a>
+<a href="https://samsclass.info/40/proj/digwin.htm">Installing Dig on Windows</a></p>
+<hr />
+<h3>相关资源</h3>
+<p><a href="https://swupdate.openvpn.org/community/releases/tap-windows-9.9.2_3.exe">Installer(NDIS5) tap-windows-9.9.2_3.exe</a>
+<a href="http://code.kryo.se/iodine/iodine-0.7.0-windows.zip">iodine-0.7.0-windows.zip</a>
+<a href="https://www.proxifier.com/distr/ProxifierSetup.exe">ProxifierSetup.exe</a></p></div>
+	<hr>
+	<h2>Comments</h2>
+</div>
+		</div>
+	</div> 	<!-- <hr> -->
+</div> <!-- /container -->
+<footer class="aw-footer bg-danger">
+	<div class="container"> <!-- footer -->
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">
+				<div class="row">
+					<div class="col-md-3">
+						<h4>Navigation</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="">zqhong</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Author</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="#">You can add links in your config file</a></li>
+							<li><a href="#">Another social link</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Categories</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="/category/PHP.html">PHP (7)</a></li>
+							<li><a href="/category/Python.html">Python (2)</a></li>
+							<li><a href="/category/Python,-WEB.html">Python, WEB (1)</a></li>
+							<li><a href="/category/WEB.html">WEB (2)</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Links</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="http://getpelican.com/">Pelican</a></li>
+							<li><a href="http://python.org/">Python.org</a></li>
+							<li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+							<li><a href="#">You can modify those links in your config file</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12 text-center center-block aw-bottom">
+			<p>&copy; zqhong 2014</p>
+			<p>Powered by Pelican</p>
+		</div>
+	</div>
+</div>
+<!-- JavaScript -->
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+	$("div.collapseheader").click(function () {
+		$header = $(this).children("span").first();
+		$codearea = $(this).children(".input_area");
+		$codearea.slideToggle(500, function () {
+			$header.text(function () {
+				return $codearea.is(":visible") ? "Collapse Code" : "Expand Code";
+			});
+		});
+	});
+});
+</script>
+</body>
+</html>
