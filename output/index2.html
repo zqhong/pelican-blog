@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>zqhong</title>
+	<meta name="description" content="Coding, scientific development, finance, data analysis, visualization, statistics, and machine learning">
+	<meta name="author" content="zqhong">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+	<!--[if lt IE 9]>
+		<script src="/theme/html5.js"></script>
+		<![endif]-->
+	<link href="/theme/css/ipython.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/simplex/bootstrap.min.css" rel="stylesheet">
+	<link href="/theme/css/local.css" rel="stylesheet">
+	<link href="/theme/css/pygments.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+	<div class="page-header">
+		<h1><a href="/">zqhong</a>
+			<br><small>Simplicity is the ultimate sophistication</small></h1>	</div>
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+        
+        
+<div class="article" itemscope itemtype="http://schema.org/BlogPosting">
+	<a href="/build-dns-tunnel.html">
+		<h2 itemprop="name headline">使用iodine搭建DNS隧道</h2>
+	</a>
+	<time datetime="2016-02-16T13:36:00+08:00" itemprop="datePublished">Tue 16 February 2016</time>
+	&nbsp;—&nbsp;
+	<span itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+		<span itemprop="name">zqhong</span>
+	</span>
+	<div class="summary"><h3>一、dns配置</h3>
+<p>以我的域名 <strong>zqhong.com</strong> 为例：</p>
+<div class="highlight"><pre><span></span>ns.zqhong.com NS t.zqhong.com. # 注意：最后需要一个 &quot;.&quot;
+t.zqhong.com  A  1.2.3.4       # 1.2.3.4 是你的服务器地址
+</pre></div>
+
+
+<hr />
+<h3>二、服务端配置</h3>
+<ol>
+<li>开启 Linux 的 ipv4 转发功能</li>
+</ol>
+<div class="highlight"><pre><span></span>$ sudo <span class="nb">echo</span> <span class="m">1</span> &gt; /proc/sys/net/ipv4/ip_forward
+<span class="c1"># 接着编辑 /etc/sysctl.conf，设置：net.ipv4 ...</span></pre></div></div>
+	Category:
+	<span itemprop="articleSection">
+		<a href="/category/web.html" rel="category">WEB</a>
+	</span>
+	Tags:
+ 
+	<span itemprop="keywords">
+		<a href="/tag/iodine.html" rel="tag">iodine</a>
+	</span>
+	<span itemprop="keywords">
+		<a href="/tag/dns.html" rel="tag">dns</a>
+	</span>
+	<span itemprop="keywords">
+		<a href="/tag/proxy.html" rel="tag">proxy</a>
+	</span>
+	<span itemprop="keywords">
+		<a href="/tag/tunnel.html" rel="tag">tunnel</a>
+	</span>
+</div>
+<hr>
+        
+<div class="article" itemscope itemtype="http://schema.org/BlogPosting">
+	<a href="/add-ssl-certificate-on-your-domain.html">
+		<h2 itemprop="name headline">全站使用HTTPS（StartSSL+Nginx）</h2>
+	</a>
+	<time datetime="2016-01-21T14:01:00+08:00" itemprop="datePublished">Thu 21 January 2016</time>
+	&nbsp;—&nbsp;
+	<span itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+		<span itemprop="name">zqhong</span>
+	</span>
+	<div class="summary"><h3>1、开通企业邮箱</h3>
+<p>这里使用的是阿里云企业邮箱，大致步骤：<strong>1、添加解析   2、设置密码   3、分配员工账号</strong>。具体请参考：<a href="https://help.aliyun.com/knowledge_detail/6555183.html?spm=5176.200037.n2.7.mA5m6G">阿里云企业邮箱开通指南</a>。</p>
+<blockquote>
+<p>备注：申请SSL证书需要确认申请人是否拥有域名的管理权。一般会发验证链接到 postmaster@yourdomain.com 或 admin@yourdomain.com。</p>
+</blockquote>
+<hr />
+<h3>2、申请证书</h3>
+<p><em>i.zqhong.com</em>现在使用的是<a href="https://www.startssl.com/">StartSSL</a>的免费证书。关于SSL证书的选择，可以参考：<a href="https://qiaodahai.com/cheapest-ssl-certificates.html">最便宜的SSL证书 - 乔大海</a>。申请过程很简单，这里不再说明。</p>
+<!--more-->
+
+<hr />
+<h3>3、配置服务器</h3>
+<p>以<em>nginx</em>为例。</p>
+<div class="highlight"><pre><span></span># /etc/nginx/conf.d/default.conf
+server {
+    server_name yourdomain ...</pre></div></!--more--></div>
+	Category:
+	<span itemprop="articleSection">
+		<a href="/category/web.html" rel="category">WEB</a>
+	</span>
+	Tags:
+ 
+	<span itemprop="keywords">
+		<a href="/tag/ssl.html" rel="tag">SSL</a>
+	</span>
+	<span itemprop="keywords">
+		<a href="/tag/nginx.html" rel="tag">Nginx</a>
+	</span>
+</div>
+<hr>
+ <div class="pagination">
+<ul>
+    <li class="prev"><a href="/index.html">&larr; Previous</a></li>
+
+    <li class=""><a href="/index.html">1</a></li>
+    <li class="active"><a href="/index2.html">2</a></li>
+
+    <li class="next disabled"><a href="#">&rarr; Next</a></li>
+
+</ul>
+</div> 		</div>
+	</div> 	<!-- <hr> -->
+</div> <!-- /container -->
+<footer class="aw-footer bg-danger">
+	<div class="container"> <!-- footer -->
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">
+				<div class="row">
+					<div class="col-md-3">
+						<h4>Navigation</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="">zqhong</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Author</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="#">You can add links in your config file</a></li>
+							<li><a href="#">Another social link</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Categories</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="/category/PHP.html">PHP (7)</a></li>
+							<li><a href="/category/Python.html">Python (2)</a></li>
+							<li><a href="/category/Python,-WEB.html">Python, WEB (1)</a></li>
+							<li><a href="/category/WEB.html">WEB (2)</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Links</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="http://getpelican.com/">Pelican</a></li>
+							<li><a href="http://python.org/">Python.org</a></li>
+							<li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+							<li><a href="#">You can modify those links in your config file</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12 text-center center-block aw-bottom">
+			<p>&copy; zqhong 2014</p>
+			<p>Powered by Pelican</p>
+		</div>
+	</div>
+</div>
+<!-- JavaScript -->
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+	$("div.collapseheader").click(function () {
+		$header = $(this).children("span").first();
+		$codearea = $(this).children(".input_area");
+		$codearea.slideToggle(500, function () {
+			$header.text(function () {
+				return $codearea.is(":visible") ? "Collapse Code" : "Expand Code";
+			});
+		});
+	});
+});
+</script>
+</body>
+</html>

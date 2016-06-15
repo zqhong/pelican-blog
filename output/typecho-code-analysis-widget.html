@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>typecho 源码分析：2、Widget — zqhong</title>
+	<meta name="description" content="Title: typecho 源码分析：2、Widget; Date: 2016-02-26; Author: zqhong">
+	<meta name="author" content="zqhong">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+	<!--[if lt IE 9]>
+		<script src="/theme/html5.js"></script>
+		<![endif]-->
+	<link href="/theme/css/ipython.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/simplex/bootstrap.min.css" rel="stylesheet">
+	<link href="/theme/css/local.css" rel="stylesheet">
+	<link href="/theme/css/pygments.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+	<div class="page-header">
+		<h1><a href="/">zqhong</a>
+			<br><small>Simplicity is the ultimate sophistication</small></h1>	</div>
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+<div class="article" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="text-center article-header">
+		<h1 itemprop="name headline" class="article-title">typecho 源码分析：2、Widget</h1>
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<h4 itemprop="name">zqhong</h4>
+		</span>
+		<time datetime="2016-02-26T16:08:00+08:00" itemprop="datePublished">Fri 26 February 2016</time>
+	</div>
+	<div>
+		Category:
+		<span itemprop="articleSection">
+			<a href="/category/php.html" rel="category">PHP</a>
+		</span>
+	</div>
+ 
+	<div>
+		Tags:
+		<span itemprop="keywords">
+			<a href="/tag/typecho.html" rel="tag">typecho</a>
+		</span>
+		<span itemprop="keywords">
+			<a href="/tag/php.html" rel="tag">php</a>
+		</span>
+		<span itemprop="keywords">
+			<a href="/tag/widget.html" rel="tag">widget</a>
+		</span>
+	</div>
+	<div itemprop="articleBody" class="article-body"><h3>Widget 分析</h3>
+<h4>一、Widget 超类 Typecho_Widget</h4>
+<p>所有 Widget 都继承这个类，所以很有必要了解这个类。</p>
+<p><em>typecho/var/Typecho/Widget.php</em></p>
+<div class="highlight"><pre><span></span><span class="x">abstract class Typecho_Widget</span>
+<span class="x">{</span>
+<span class="x">    private static $_widgetAlias = array();</span>
+
+<span class="x">    private static $_widgetPool = array();</span>
+
+<span class="x">    public $request;</span>
+
+<span class="x">    public $response;</span>
+
+<span class="x">    public $parameter;</span>
+
+<span class="x">    public function __construct($request, $response, $params = NULL)</span>
+<span class="x">    {</span>
+<span class="x">        //设置函数内部对象</span>
+<span class="x">        $this-&gt;request = $request;</span>
+<span class="x">        $this-&gt;response = $response;</span>
+<span class="x">        $this-&gt;parameter = new Typecho_Config();</span>
+
+<span class="x">        if (!empty($params)) {</span>
+<span class="x">            $this-&gt;parameter-&gt;setDefault($params);</span>
+<span class="x">        }</span>
+<span class="x">    }</span>
+
+<span class="x">    public static function widget($alias, $params = NULL, $request = NULL, $enableResponse = true)</span>
+<span class="x">    {</span>
+<span class="x">        $parts = explode(&#39;@&#39;, $alias);</span>
+<span class="x">        $className = $parts[0];</span>
+<span class="x">        $alias = empty($parts[1]) ? $className : $parts[1];</span>
+
+<span class="x">        if (isset(self::$_widgetAlias[$className])) {</span>
+<span class="x">            $className = self::$_widgetAlias[$className];</span>
+<span class="x">        }</span>
+
+<span class="x">        if (!isset(self::$_widgetPool[$alias])) {</span>
+<span class="x">            /** 如果类不存在 */</span>
+<span class="x">            if (!class_exists($className)) {</span>
+<span class="x">                throw new Typecho_Widget_Exception($className);</span>
+<span class="x">            }</span>
+
+<span class="x">            /** 初始化request */</span>
+<span class="x">            if (!empty($request)) {</span>
+<span class="x">                $requestObject = new Typecho_Request();</span>
+<span class="x">                $requestObject-&gt;setParams($request);</span>
+<span class="x">            } else {</span>
+<span class="x">                $requestObject = Typecho_Request::getInstance();</span>
+<span class="x">            }</span>
+
+<span class="x">            /** 初始化response */</span>
+<span class="x">            $responseObject = $enableResponse ? Typecho_Response::getInstance()</span>
+<span class="x">            : Typecho_Widget_Helper_Empty::getInstance();</span>
+
+<span class="x">            /** 初始化组件 */</span>
+<span class="x">            $widget = new $className($requestObject, $responseObject, $params);</span>
+
+<span class="x">            $widget-&gt;execute();</span>
+<span class="x">            self::$_widgetPool[$alias] = $widget;</span>
+<span class="x">        }</span>
+
+<span class="x">        return self::$_widgetPool[$alias];</span>
+<span class="x">    }</span>
+<span class="x">}</span>
+</pre></div>
+
+
+<p>代码分析：
+<code>Typecho_Widget::widget</code> 是负责生产 widget 的工厂方法。生产并初始化一个 widget 实例，然后执行这个实例对象的 <em>execute</em> 方法。最后将生产出来的 widget 放在 <code>Typecho_Widget::$_widgetPool</code> 中。</p>
+<!--more-->
+
+<h4>二、初始化组件</h4>
+<p>程序在 <em>index.php</em> 在调用 <em>Typecho_Widget::widget("Widget_Init")</em>，生成 Widget_Init 实例，并执行该实例的 <em>execute</em> 方法。<em>execute</em>才是真正实现组件初始化的地方。</p>
+<p><em>typecho/var/Widget/Init.php</em></p>
+<div class="highlight"><pre><span></span><span class="x">class Widget_Init extends Typecho_Widget</span>
+<span class="x">{</span>
+<span class="x">    public function execute()</span>
+<span class="x">    {</span>
+<span class="x">        /** 对变量赋值 */</span>
+<span class="x">        $options = $this-&gt;widget(&#39;Widget_Options&#39;);</span>
+
+<span class="x">        /** 语言包初始化 */</span>
+<span class="x">        if ($options-&gt;lang &amp;&amp; $options-&gt;lang != &#39;zh_CN&#39;) {</span>
+<span class="x">            $dir = defined(&#39;__TYPECHO_LANG_DIR__&#39;) ? __TYPECHO_LANG_DIR__ : __TYPECHO_ROOT_DIR__ . &#39;/usr/langs&#39;;</span>
+<span class="x">            Typecho_I18n::setLang($dir . &#39;/&#39; . $options-&gt;lang . &#39;.mo&#39;);</span>
+<span class="x">        }</span>
+
+<span class="x">        /** cookie初始化 */</span>
+<span class="x">        Typecho_Cookie::setPrefix($options-&gt;rootUrl);</span>
+
+<span class="x">        /** 初始化charset */</span>
+<span class="x">        Typecho_Common::$charset = $options-&gt;charset;</span>
+
+<span class="x">        /** 初始化exception */</span>
+<span class="x">        Typecho_Common::$exceptionHandle = &#39;Widget_ExceptionHandle&#39;;</span>
+
+<span class="x">        /** 设置路径 */</span>
+<span class="x">        if (defined(&#39;__TYPECHO_PATHINFO_ENCODING__&#39;)) {</span>
+<span class="x">            $pathInfo = $this-&gt;request-&gt;getPathInfo(__TYPECHO_PATHINFO_ENCODING__, $options-&gt;charset);</span>
+<span class="x">        } else {</span>
+<span class="x">            $pathInfo = $this-&gt;request-&gt;getPathInfo();</span>
+<span class="x">        }</span>
+
+<span class="x">        Typecho_Router::setPathInfo($pathInfo);</span>
+
+<span class="x">        /** 初始化路由器 */</span>
+<span class="x">        Typecho_Router::setRoutes($options-&gt;routingTable);</span>
+
+<span class="x">        /** 初始化插件 */</span>
+<span class="x">        Typecho_Plugin::init($options-&gt;plugins);</span>
+
+<span class="x">        /** 初始化回执 */</span>
+<span class="x">        $this-&gt;response-&gt;setCharset($options-&gt;charset);</span>
+<span class="x">        $this-&gt;response-&gt;setContentType($options-&gt;contentType);</span>
+
+<span class="x">        /** 默认时区 */</span>
+<span class="x">        if (function_exists(&quot;ini_get&quot;) &amp;&amp; !ini_get(&quot;date.timezone&quot;) &amp;&amp; function_exists(&quot;date_default_timezone_set&quot;)) {</span>
+<span class="x">            @date_default_timezone_set(&#39;UTC&#39;);</span>
+<span class="x">        }</span>
+
+<span class="x">        /** 初始化时区 */</span>
+<span class="x">        Typecho_Date::setTimezoneOffset($options-&gt;timezone);</span>
+
+<span class="x">        /** 开始会话, 减小负载只针对后台打开session支持 */</span>
+<span class="x">        if ($this-&gt;widget(&#39;Widget_User&#39;)-&gt;hasLogin()) {</span>
+<span class="x">            @session_start();</span>
+<span class="x">        }</span>
+
+<span class="x">        /** 监听缓冲区 */</span>
+<span class="x">        ob_start();</span>
+<span class="x">    }</span>
+
+<span class="x">    // 从父类继承过来的魔术方法，这里是没有的。写在这里是为了容易查看</span>
+<span class="x">    public function __get($name)</span>
+<span class="x">    {</span>
+<span class="x">        if (array_key_exists($name, $this-&gt;row)) {</span>
+<span class="x">            return $this-&gt;row[$name];</span>
+<span class="x">        } else {</span>
+<span class="x">            $method = &#39;___&#39; . $name;</span>
+
+<span class="x">            if (method_exists($this, $method)) {</span>
+<span class="x">                return $this-&gt;$method();</span>
+<span class="x">            } else {</span>
+<span class="x">                $return = $this-&gt;pluginHandle()-&gt;trigger($plugged)-&gt;{$method}($this);</span>
+<span class="x">                if ($plugged) {</span>
+<span class="x">                    return $return;</span>
+<span class="x">                }</span>
+<span class="x">            }</span>
+<span class="x">        }</span>
+
+<span class="x">        return NULL;</span>
+<span class="x">    }</span>
+
+<span class="x">    // 也是从父类继承过来的魔术方法。</span>
+<span class="x">    public function __set($name, $value)</span>
+<span class="x">    {</span>
+<span class="x">        $this-&gt;row[$name] = $value;</span>
+<span class="x">    }</span>
+<span class="x">}</span>
+</pre></div>
+
+
+<p>代码分析：
+1. 生产一个叫 <em>Widget_Options</em> 的实例，该实例的 <em>execute</em> 方法会去读取数据表 <em>typecho_options</em> 的数据。将获取到的数据，保存到自身的 <em>row</em> 属性中。接着，初始化站点信息、设置皮肤目录、初始化路由表等。
+2. 说下初始化路由表这部分。路由表本身是一个数组，被序列化保存在数据库中。在初始化时，读取数据库的配置信息，并将路由表反序列化。路由表将需要解析的路由保存到自身值为 0 索引中。当不存在该索引时，系统将解析路由并缓存。</p>
+<p>注意点：</p>
+<blockquote>
+<ul>
+<li>当访问不可访问属性的值时，从父类继承过来的 <em>__get</em> 魔术方法会被调用。假如我们访问一个不可访问的属性叫 "url"，这个时候系统将调用 <em>__get</em> 方法，<em>__get</em> 方法首先看 <em>$this=&gt;row["url"]</em> 是否存在，不存在的话，看本身是否有 <em>__url</em> 方法。同样的，当用户给一个不可访问的属性赋值时，从父类继承过来的 <em>__set</em> 魔术方法将被调用。该方法将用户的数据保存在 <em>$this-&gt;row</em> 数组中。</li>
+<li>上面提到的 <em>typecho_options</em> 数据表是默认的情况，如果你设置了别的数据表前缀，就不是这个值了。</li>
+</ul>
+</blockquote>
+<hr />
+<h3>相关资料</h3>
+<p><a href="http://docs.typecho.org/develop/widget">typecho - Widget设计文档</a></p></div>
+	<hr>
+	<h2>Comments</h2>
+</div>
+		</div>
+	</div> 	<!-- <hr> -->
+</div> <!-- /container -->
+<footer class="aw-footer bg-danger">
+	<div class="container"> <!-- footer -->
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">
+				<div class="row">
+					<div class="col-md-3">
+						<h4>Navigation</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="">zqhong</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Author</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="#">You can add links in your config file</a></li>
+							<li><a href="#">Another social link</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Categories</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="/category/PHP.html">PHP (7)</a></li>
+							<li><a href="/category/Python.html">Python (2)</a></li>
+							<li><a href="/category/Python,-WEB.html">Python, WEB (1)</a></li>
+							<li><a href="/category/WEB.html">WEB (2)</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Links</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="http://getpelican.com/">Pelican</a></li>
+							<li><a href="http://python.org/">Python.org</a></li>
+							<li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+							<li><a href="#">You can modify those links in your config file</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12 text-center center-block aw-bottom">
+			<p>&copy; zqhong 2014</p>
+			<p>Powered by Pelican</p>
+		</div>
+	</div>
+</div>
+<!-- JavaScript -->
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+	$("div.collapseheader").click(function () {
+		$header = $(this).children("span").first();
+		$codearea = $(this).children(".input_area");
+		$codearea.slideToggle(500, function () {
+			$header.text(function () {
+				return $codearea.is(":visible") ? "Collapse Code" : "Expand Code";
+			});
+		});
+	});
+});
+</script>
+</body>
+</html>

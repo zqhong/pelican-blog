@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>安装和配置 Opcache — zqhong</title>
+	<meta name="description" content="Title: 安装和配置 Opcache; Date: 2016-03-19; Author: zqhong">
+	<meta name="author" content="zqhong">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+	<!--[if lt IE 9]>
+		<script src="/theme/html5.js"></script>
+		<![endif]-->
+	<link href="/theme/css/ipython.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/simplex/bootstrap.min.css" rel="stylesheet">
+	<link href="/theme/css/local.css" rel="stylesheet">
+	<link href="/theme/css/pygments.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+	<div class="page-header">
+		<h1><a href="/">zqhong</a>
+			<br><small>Simplicity is the ultimate sophistication</small></h1>	</div>
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+<div class="article" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="text-center article-header">
+		<h1 itemprop="name headline" class="article-title">安装和配置 Opcache</h1>
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<h4 itemprop="name">zqhong</h4>
+		</span>
+		<time datetime="2016-03-19T19:23:00+08:00" itemprop="datePublished">Sat 19 March 2016</time>
+	</div>
+	<div>
+		Category:
+		<span itemprop="articleSection">
+			<a href="/category/php.html" rel="category">PHP</a>
+		</span>
+	</div>
+ 
+	<div>
+		Tags:
+		<span itemprop="keywords">
+			<a href="/tag/php.html" rel="tag">php</a>
+		</span>
+		<span itemprop="keywords">
+			<a href="/tag/opcache.html" rel="tag">opcache</a>
+		</span>
+	</div>
+	<div itemprop="articleBody" class="article-body"><h3>Opcache 简介</h3>
+<p>PHP 解释器执行 PHP 脚本会先将脚本内容转换成 <a href="http://www.laruence.com/2008/06/18/221.html">opcode</a>，然后再执行字节码。但这样有一个问题，每次都这样，浪费很多资源。解决办法很简单，就是把字节码缓存起来。目前，对于 PHP 5.5 以上的版本，推荐使用 <a href="http://ua2.php.net/manual/zh/book.opcache.php">Opcache</a>。旧版本可以考虑：<a href="http://php.net/manual/zh/book.apc.php">APC</a>、<a href="http://xcache.lighttpd.net/">XCache</a></p>
+<p>Opcache 官网介绍：
+OPcache 通过将 PHP 脚本预编译的字节码存储到共享内存中来提升 PHP 的性能， 存储预编译字节码的好处就是 省去了每次加载和解析 PHP 脚本的开销。</p>
+<hr />
+<h3>安装 Opcache</h3>
+<p>如何安装请看这里：<a href="http://ua2.php.net/manual/en/opcache.installation.php">PHP - Opcache Installing</a></p>
+<p>简单的说，对于 PHP 5.5.0+ 的版本，在编译的时候加上 <strong>--enable-opcache</strong> 这个参数，并在 php.ini 中添加<code>zend_extension=/full/path/to/opcache.so</code>启用 Opcache 即可。</p>
+<hr />
+<h3>配置 Opcache</h3>
+<ol>
+<li>在网站根目录新建一个 <em>phpinfo.php</em> 的文件，内容为：</li>
+</ol>
+<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+<span class="k">echo</span> <span class="nb">phpinfo</span><span class="p">();</span>
+</pre></div>
+
+
+<ol>
+<li>使用浏览器访问该文件，比如：<code>http://hostname.com/phpinfo.php</code></li>
+<li>找到这一行：<strong>Loaded Configuration File    /path/to/php.ini</strong></li>
+<li>编辑上面那个 <em>php.ini</em> 文件，修改内容为：</li>
+</ol>
+<div class="highlight"><pre><span></span><span class="k">[opcache]</span>
+<span class="c1">; OPcache 的共享内存大小，单位：MB</span>
+<span class="na">opcache.memory_consumption</span><span class="o">=</span><span class="s">64</span>
+
+<span class="c1">; 用来存储临时字符串的内存大小，单位：MB</span>
+<span class="na">opcache.interned_strings_buffer</span><span class="o">=</span><span class="s">16</span>
+
+<span class="c1">; OPcache 哈希表中可存储的脚本文件数量上限</span>
+<span class="na">opcache.max_accelerated_files</span><span class="o">=</span><span class="s">4000</span>
+
+<span class="na">opcache.fast_shutdown</span><span class="o">=</span><span class="s">1</span>
+
+<span class="c1">; 注意，这里我将 validate_timestamps 设置为 0，Opcache 不会自动更新你的脚本</span>
+<span class="c1">; 如果你需要了脚本文件，需要手动重启 Web 服务器 或者使用 opcache_reset() 函数</span>
+<span class="na">opcache.validate_timestamps</span><span class="o">=</span><span class="s">0</span>
+
+<span class="c1">; 同样的，还是在上面的网页中找到 extension_dir 这个配置项，然后把你自己的 opcache.so 的路径写进去即可。</span>
+<span class="na">zend_extension</span><span class="o">=</span><span class="s">/path/to/opcache.so</span>
+</pre></div>
+
+
+<ol>
+<li>重启 php</li>
+</ol>
+<div class="highlight"><pre><span></span># 如果服务器是 Nginx
+$ /etc/init.d/php-fpm restart
+
+# 如果服务器是 Apache，直接重启 Apache 即可
+$ /etc/init.d/apache restart
+</pre></div>
+
+
+<ol>
+<li>最后，重新打开上面的地址。如果能看到下面的内容，则说明成功。
+<img alt="Opcache-Successful" src="https://www.sinaimg.cn/large/ce744de6gw1f22eu6hacrj20qm0dsdi9.jpg" /></li>
+</ol>
+<hr />
+<h3>reset Opcache</h3>
+<ol>
+<li>如果使用的服务器是 Apache</li>
+</ol>
+<div class="highlight"><pre><span></span>$ service httpd reload
+$ apachectl graceful
+</pre></div>
+
+
+<ol>
+<li>如果是 PHP-FPM（一般 Nginx 会采用这种方式）</li>
+</ol>
+<div class="highlight"><pre><span></span>$ service php-fpm reload
+</pre></div>
+
+
+<blockquote>
+<p>注意：如果你的代码修改了，但是访问网站后发现无效。这个时候就要怀疑是不是缓存的问题了。</p>
+</blockquote>
+<!--more-->
+
+<h3>相关资料</h3>
+<p><a href="http://ua2.php.net/manual/zh/opcache.installation.php">PHP - Opcache Installing</a>
+<a href="http://ua2.php.net/manual/zh/opcache.configuration.php">PHP - Opcache 运行时配置</a>
+<a href="https://phphub.org/topics/301">使用 OpCache 提升 PHP 5.5+ 程序性能</a>
+<a href="http://www.ximici.com/2014/09/04/opcache-fast_shutdown1%E5%AF%BC%E8%87%B4cphalcon%E8%8E%AB%E5%90%8D%E5%85%B6%E5%A6%99%E7%9A%84%E7%9A%84%E9%94%99%E8%AF%AF/?ckattempt=1">opcache.fast_shutdown=1导致cphalcon莫名其妙的的错误</a>
+<a href="http://www.laruence.com/2008/06/18/221.html">深入理解PHP原理之Opcodes</a>
+<a href="http://wiki.jikexueyuan.com/project/php-right-way/cache.html">PHP 之道 - 缓存</a></p></div>
+	<hr>
+	<h2>Comments</h2>
+</div>
+		</div>
+	</div> 	<!-- <hr> -->
+</div> <!-- /container -->
+<footer class="aw-footer bg-danger">
+	<div class="container"> <!-- footer -->
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">
+				<div class="row">
+					<div class="col-md-3">
+						<h4>Navigation</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="">zqhong</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Author</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="#">You can add links in your config file</a></li>
+							<li><a href="#">Another social link</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Categories</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="/category/PHP.html">PHP (7)</a></li>
+							<li><a href="/category/Python.html">Python (2)</a></li>
+							<li><a href="/category/Python,-WEB.html">Python, WEB (1)</a></li>
+							<li><a href="/category/WEB.html">WEB (2)</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Links</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="http://getpelican.com/">Pelican</a></li>
+							<li><a href="http://python.org/">Python.org</a></li>
+							<li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+							<li><a href="#">You can modify those links in your config file</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12 text-center center-block aw-bottom">
+			<p>&copy; zqhong 2014</p>
+			<p>Powered by Pelican</p>
+		</div>
+	</div>
+</div>
+<!-- JavaScript -->
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+	$("div.collapseheader").click(function () {
+		$header = $(this).children("span").first();
+		$codearea = $(this).children(".input_area");
+		$codearea.slideToggle(500, function () {
+			$header.text(function () {
+				return $codearea.is(":visible") ? "Collapse Code" : "Expand Code";
+			});
+		});
+	});
+});
+</script>
+</body>
+</html>
