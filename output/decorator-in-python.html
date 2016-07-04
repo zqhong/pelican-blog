@@ -8,19 +8,19 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
 	<!--[if lt IE 9]>
-		<script src="/theme/html5.js"></script>
+		<script src="https://zqhong.github.io/pelican-blog/theme/html5.js"></script>
 		<![endif]-->
-	<link href="/theme/css/ipython.css" rel="stylesheet">
+	<link href="https://zqhong.github.io/pelican-blog/theme/css/ipython.css" rel="stylesheet">
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 	<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/simplex/bootstrap.min.css" rel="stylesheet">
-	<link href="/theme/css/local.css" rel="stylesheet">
-	<link href="/theme/css/pygments.css" rel="stylesheet">
+	<link href="https://zqhong.github.io/pelican-blog/theme/css/local.css" rel="stylesheet">
+	<link href="https://zqhong.github.io/pelican-blog/theme/css/pygments.css" rel="stylesheet">
 </head>
 <body>
 <div class="container">
 	<div class="page-header">
-		<h1><a href="/">zqhong</a>
+		<h1><a href="https://zqhong.github.io/pelican-blog/">zqhong</a>
 			<br><small>Simplicity is the ultimate sophistication</small></h1>	</div>
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
@@ -35,42 +35,42 @@
 	<div>
 		Category:
 		<span itemprop="articleSection">
-			<a href="/category/python.html" rel="category">Python</a>
+			<a href="https://zqhong.github.io/pelican-blog/category/python.html" rel="category">Python</a>
 		</span>
 	</div>
  
 	<div>
 		Tags:
 		<span itemprop="keywords">
-			<a href="/tag/python.html" rel="tag">python</a>
+			<a href="https://zqhong.github.io/pelican-blog/tag/python.html" rel="tag">python</a>
 		</span>
 		<span itemprop="keywords">
-			<a href="/tag/decorator.html" rel="tag">decorator</a>
+			<a href="https://zqhong.github.io/pelican-blog/tag/decorator.html" rel="tag">decorator</a>
 		</span>
 	</div>
 	<div itemprop="articleBody" class="article-body"><h3>一个简单的例子</h3>
-<div class="highlight"><pre><span></span><span class="c1"># coding: utf8</span>
+<div class="highlight"><pre><span class="c"># coding: utf8</span>
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
 
 
 <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">wrap</span><span class="p">():</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;I am doing some boring work before executing func()&quot;</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;I am doing some boring work before executing func()&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">func</span><span class="p">()</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;I am doing some boring work after executing func()&quot;</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;I am doing some boring work after executing func()&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">wrap</span>
 
 <span class="k">def</span> <span class="nf">func</span><span class="p">():</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;I am the function which needs some decoration to remove my foul smell&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;I am the function which needs some decoration to remove my foul smell&quot;</span><span class="p">)</span>
 
 <span class="n">func</span> <span class="o">=</span> <span class="n">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
 <span class="n">func</span><span class="p">()</span>
 
-<span class="c1"># Output:</span>
-<span class="c1"># I am doing some boring work before executing func()</span>
-<span class="c1"># I am the function which needs some decoration to remove my foul smell</span>
-<span class="c1"># I am doing some boring work after executing func()</span>
+<span class="c"># Output:</span>
+<span class="c"># I am doing some boring work before executing func()</span>
+<span class="c"># I am the function which needs some decoration to remove my foul smell</span>
+<span class="c"># I am doing some boring work after executing func()</span>
 </pre></div>
 
 
@@ -80,30 +80,30 @@
 
 <hr />
 <h3>使用 Python 的修饰器</h3>
-<div class="highlight"><pre><span></span><span class="c1"># coding: utf8</span>
+<div class="highlight"><pre><span class="c"># coding: utf8</span>
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
 
 
 <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">wrap</span><span class="p">():</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;I am doing some boring work before executing func()&quot;</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;I am doing some boring work before executing func()&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">func</span><span class="p">()</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;I am doing some boring work after executing func()&quot;</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;I am doing some boring work after executing func()&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">wrap</span>
 
 <span class="nd">@decorator</span>
 <span class="k">def</span> <span class="nf">func</span><span class="p">():</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;I am the function which needs some decoration to remove my foul smell&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;I am the function which needs some decoration to remove my foul smell&quot;</span><span class="p">)</span>
 
 <span class="n">func</span><span class="p">()</span>
 <span class="k">print</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
 
-<span class="c1"># Output:</span>
-<span class="c1"># I am doing some boring work before executing func()</span>
-<span class="c1"># I am the function which needs some decoration to remove my foul smell</span>
-<span class="c1"># I am doing some boring work after executing func()</span>
-<span class="c1"># wrap</span>
+<span class="c"># Output:</span>
+<span class="c"># I am doing some boring work before executing func()</span>
+<span class="c"># I am the function which needs some decoration to remove my foul smell</span>
+<span class="c"># I am doing some boring work after executing func()</span>
+<span class="c"># wrap</span>
 </pre></div>
 
 
@@ -111,7 +111,7 @@
 这个和第一个例子其实是一样的，只是更加方便。但这里存在一个问题，<code>func</code>函数的名字变成了 <code>wrap</code>。这并不是我们希望看到的。</p>
 <hr />
 <h3>解决方案</h3>
-<div class="highlight"><pre><span></span><span class="c1"># coding: utf8</span>
+<div class="highlight"><pre><span class="c"># coding: utf8</span>
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
@@ -120,29 +120,29 @@
 <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">wrap</span><span class="p">():</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;I am doing some boring work before executing func()&quot;</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;I am doing some boring work before executing func()&quot;</span><span class="p">)</span>
         <span class="n">func</span><span class="p">()</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;I am doing some boring work after executing func()&quot;</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;I am doing some boring work after executing func()&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">wrap</span>
 
 <span class="nd">@decorator</span>
 <span class="k">def</span> <span class="nf">func</span><span class="p">():</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;I am the function which needs some decoration to remove my foul smell&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;I am the function which needs some decoration to remove my foul smell&quot;</span><span class="p">)</span>
 
 <span class="n">func</span><span class="p">()</span>
 <span class="k">print</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
 
-<span class="c1"># Output:</span>
-<span class="c1"># I am doing some boring work before executing func()</span>
-<span class="c1"># I am the function which needs some decoration to remove my foul smell</span>
-<span class="c1"># I am doing some boring work after executing func()</span>
-<span class="c1"># func</span>
+<span class="c"># Output:</span>
+<span class="c"># I am doing some boring work before executing func()</span>
+<span class="c"># I am the function which needs some decoration to remove my foul smell</span>
+<span class="c"># I am doing some boring work after executing func()</span>
+<span class="c"># func</span>
 </pre></div>
 
 
 <hr />
 <h3>使用场景1 - 授权</h3>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
 
 <span class="k">def</span> <span class="nf">requires_auth</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
@@ -157,12 +157,12 @@
 
 <hr />
 <h3>使用场景2 - 日志</h3>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
 
 <span class="k">def</span> <span class="nf">logit</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">with_logging</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="n">__name__</span> <span class="o">+</span> <span class="s2">&quot; was called&quot;</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="n">__name__</span> <span class="o">+</span> <span class="s">&quot; was called&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">with_logging</span>
 
@@ -173,7 +173,7 @@
 
 
 <span class="n">result</span> <span class="o">=</span> <span class="n">addition_func</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-<span class="c1"># Output: addition_func was called</span>
+<span class="c"># Output: addition_func was called</span>
 </pre></div>
 
 
@@ -194,7 +194,7 @@
 					<div class="col-md-3">
 						<h4>Navigation</h4>
 						<ul class="list-unstyled my-list-style">
-							<li><a href="">zqhong</a></li>
+							<li><a href="https://zqhong.github.io/pelican-blog">zqhong</a></li>
 						</ul>
 					</div>
 					<div class="col-md-3">
@@ -207,10 +207,10 @@
 					<div class="col-md-3">
 						<h4>Categories</h4>
 						<ul class="list-unstyled my-list-style">
-							<li><a href="/category/PHP.html">PHP (7)</a></li>
-							<li><a href="/category/Python.html">Python (2)</a></li>
-							<li><a href="/category/Python,-WEB.html">Python, WEB (1)</a></li>
-							<li><a href="/category/WEB.html">WEB (2)</a></li>
+							<li><a href="https://zqhong.github.io/pelican-blog/category/PHP.html">PHP (7)</a></li>
+							<li><a href="https://zqhong.github.io/pelican-blog/category/Python.html">Python (2)</a></li>
+							<li><a href="https://zqhong.github.io/pelican-blog/category/Python,-WEB.html">Python, WEB (1)</a></li>
+							<li><a href="https://zqhong.github.io/pelican-blog/category/WEB.html">WEB (2)</a></li>
 						</ul>
 					</div>
 					<div class="col-md-3">

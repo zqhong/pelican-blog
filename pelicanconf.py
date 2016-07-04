@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 AUTHOR = u'zqhong'
 SITENAME = u'zqhong'
 SITESUBTITLE = u'Simplicity is the ultimate sophistication'
-SITEURL = ''
+SITEURL = 'https://zqhong.github.io/pelican-blog'
 
 PATH = 'content'
 

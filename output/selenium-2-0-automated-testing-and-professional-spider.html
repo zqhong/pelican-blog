@@ -8,19 +8,19 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
 	<!--[if lt IE 9]>
-		<script src="/theme/html5.js"></script>
+		<script src="https://zqhong.github.io/pelican-blog/theme/html5.js"></script>
 		<![endif]-->
-	<link href="/theme/css/ipython.css" rel="stylesheet">
+	<link href="https://zqhong.github.io/pelican-blog/theme/css/ipython.css" rel="stylesheet">
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 	<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/simplex/bootstrap.min.css" rel="stylesheet">
-	<link href="/theme/css/local.css" rel="stylesheet">
-	<link href="/theme/css/pygments.css" rel="stylesheet">
+	<link href="https://zqhong.github.io/pelican-blog/theme/css/local.css" rel="stylesheet">
+	<link href="https://zqhong.github.io/pelican-blog/theme/css/pygments.css" rel="stylesheet">
 </head>
 <body>
 <div class="container">
 	<div class="page-header">
-		<h1><a href="/">zqhong</a>
+		<h1><a href="https://zqhong.github.io/pelican-blog/">zqhong</a>
 			<br><small>Simplicity is the ultimate sophistication</small></h1>	</div>
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
@@ -35,106 +35,106 @@
 	<div>
 		Category:
 		<span itemprop="articleSection">
-			<a href="/category/python.html" rel="category">Python</a>
+			<a href="https://zqhong.github.io/pelican-blog/category/python.html" rel="category">Python</a>
 		</span>
 	</div>
  
 	<div>
 		Tags:
 		<span itemprop="keywords">
-			<a href="/tag/python.html" rel="tag">Python</a>
+			<a href="https://zqhong.github.io/pelican-blog/tag/python.html" rel="tag">Python</a>
 		</span>
 		<span itemprop="keywords">
-			<a href="/tag/selenium.html" rel="tag">Selenium</a>
+			<a href="https://zqhong.github.io/pelican-blog/tag/selenium.html" rel="tag">Selenium</a>
 		</span>
 		<span itemprop="keywords">
-			<a href="/tag/zi-dong-hua.html" rel="tag">自动化</a>
+			<a href="https://zqhong.github.io/pelican-blog/tag/zi-dong-hua.html" rel="tag">自动化</a>
 		</span>
 		<span itemprop="keywords">
-			<a href="/tag/ce-shi.html" rel="tag">测试</a>
+			<a href="https://zqhong.github.io/pelican-blog/tag/ce-shi.html" rel="tag">测试</a>
 		</span>
 	</div>
 	<div itemprop="articleBody" class="article-body"><h1>Example1：登录网易邮箱</h1>
-<div class="highlight"><pre><span></span><span class="c1"># coding: utf8</span>
+<div class="highlight"><pre><span class="err">#</span> <span class="nx">coding</span><span class="o">:</span> <span class="nx">utf8</span>
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="nx">from</span> <span class="nx">__future__</span> <span class="kr">import</span> <span class="nx">print_function</span>
 
-<span class="kn">from</span> <span class="nn">selenium</span> <span class="kn">import</span> <span class="n">webdriver</span>
-<span class="kn">from</span> <span class="nn">selenium.webdriver.common.by</span> <span class="kn">import</span> <span class="n">By</span>
-<span class="kn">from</span> <span class="nn">selenium.webdriver.support</span> <span class="kn">import</span> <span class="n">expected_conditions</span> <span class="k">as</span> <span class="n">EC</span>
-<span class="kn">from</span> <span class="nn">selenium.webdriver.support.ui</span> <span class="kn">import</span> <span class="n">WebDriverWait</span>
+<span class="nx">from</span> <span class="nx">selenium</span> <span class="kr">import</span> <span class="nx">webdriver</span>
+<span class="nx">from</span> <span class="nx">selenium</span><span class="p">.</span><span class="nx">webdriver</span><span class="p">.</span><span class="nx">common</span><span class="p">.</span><span class="nx">by</span> <span class="kr">import</span> <span class="nx">By</span>
+<span class="nx">from</span> <span class="nx">selenium</span><span class="p">.</span><span class="nx">webdriver</span><span class="p">.</span><span class="nx">support</span> <span class="kr">import</span> <span class="nx">expected_conditions</span> <span class="nx">as</span> <span class="nx">EC</span>
+<span class="nx">from</span> <span class="nx">selenium</span><span class="p">.</span><span class="nx">webdriver</span><span class="p">.</span><span class="nx">support</span><span class="p">.</span><span class="nx">ui</span> <span class="kr">import</span> <span class="nx">WebDriverWait</span>
 
 
-<span class="k">class</span> <span class="nc">Netease</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># 使用到的 url</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">login_url</span> <span class="o">=</span> <span class="s2">&quot;http://reg.163.com/&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">account_info_url</span> <span class="o">=</span> <span class="s2">&quot;http://reg.163.com/account/accountInfo.jsp&quot;</span>
+<span class="kr">class</span> <span class="nx">Netease</span><span class="p">(</span><span class="nx">object</span><span class="p">)</span><span class="o">:</span>
+    <span class="nx">def</span> <span class="nx">__init__</span><span class="p">(</span><span class="nx">self</span><span class="p">)</span><span class="o">:</span>
+        <span class="err">#</span> <span class="err">使用到的</span> <span class="nx">url</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">login_url</span> <span class="o">=</span> <span class="s2">&quot;http://reg.163.com/&quot;</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">account_info_url</span> <span class="o">=</span> <span class="s2">&quot;http://reg.163.com/account/accountInfo.jsp&quot;</span>
 
-        <span class="c1"># 邮箱和密码，这里使用一个没用的账号用于测试</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="s2">&quot;your_email&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="s2">&quot;your_password&quot;</span>
+        <span class="err">#</span> <span class="err">邮箱和密码，这里使用一个没用的账号用于测试</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">email</span> <span class="o">=</span> <span class="s2">&quot;your_email&quot;</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">password</span> <span class="o">=</span> <span class="s2">&quot;your_password&quot;</span>
 
-        <span class="c1"># 获取 WebDriver 对象</span>
-        <span class="c1"># 需要 ChromeDriver 的支持。</span>
-        <span class="c1"># 根据系统下载：http://chromedriver.storage.googleapis.com/index.html?path=2.21/</span>
-        <span class="c1"># 除了使用 Chrome，你也可以使用 Firefox、IE、Opera 等。用法差不多</span>
-        <span class="n">executable_path</span> <span class="o">=</span> <span class="s2">&quot;C:\Program Files (x86)\Google\Chrome\Application\chromedriver.exe&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Chrome</span><span class="p">(</span><span class="n">executable_path</span><span class="o">=</span><span class="n">executable_path</span><span class="p">)</span>
+        <span class="err">#</span> <span class="err">获取</span> <span class="nx">WebDriver</span> <span class="err">对象</span>
+        <span class="err">#</span> <span class="err">需要</span> <span class="nx">ChromeDriver</span> <span class="err">的支持。</span>
+        <span class="err">#</span> <span class="err">根据系统下载：</span><span class="nx">http</span><span class="o">:</span><span class="c1">//chromedriver.storage.googleapis.com/index.html?path=2.21/</span>
+        <span class="err">#</span> <span class="err">除了使用</span> <span class="nx">Chrome</span><span class="err">，你也可以使用</span> <span class="nx">Firefox</span><span class="err">、</span><span class="nx">IE</span><span class="err">、</span><span class="nx">Opera</span> <span class="err">等。用法差不多</span>
+        <span class="nx">executable_path</span> <span class="o">=</span> <span class="s2">&quot;C:\Program Files (x86)\Google\Chrome\Application\chromedriver.exe&quot;</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">driver</span> <span class="o">=</span> <span class="nx">webdriver</span><span class="p">.</span><span class="nx">Chrome</span><span class="p">(</span><span class="nx">executable_path</span><span class="o">=</span><span class="nx">executable_path</span><span class="p">)</span>
 
-        <span class="c1"># 设置默认延迟</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">delay</span> <span class="o">=</span> <span class="mi">60</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">set_page_load_timeout</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">implicitly_wait</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+        <span class="err">#</span> <span class="err">设置默认延迟</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">delay</span> <span class="o">=</span> <span class="mi">60</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">driver</span><span class="p">.</span><span class="nx">set_page_load_timeout</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">driver</span><span class="p">.</span><span class="nx">implicitly_wait</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">login</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># 打开登陆页面</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">login_url</span><span class="p">)</span>
+    <span class="nx">def</span> <span class="nx">login</span><span class="p">(</span><span class="nx">self</span><span class="p">)</span><span class="o">:</span>
+        <span class="err">#</span> <span class="err">打开登陆页面</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">driver</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">self</span><span class="p">.</span><span class="nx">login_url</span><span class="p">)</span>
 
-        <span class="c1"># WebDriver 每次只能在一个页面上识别元素</span>
-        <span class="c1"># 对于 frame 嵌套内的页面上的元素，直接定位是定位是定位不到的</span>
-        <span class="c1"># 需要通过 switch_to_frame() 方法将当前定位的主体切换了 frame 里</span>
-        <span class="n">elem_login_by_account</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="o">.</span><span class="n">ID</span><span class="p">,</span> <span class="s2">&quot;loginByAccount&quot;</span><span class="p">)</span>
-        <span class="n">elem_login_frame</span> <span class="o">=</span> <span class="n">elem_login_by_account</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="o">.</span><span class="n">TAG_NAME</span><span class="p">,</span> <span class="s2">&quot;iframe&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">switch_to</span><span class="o">.</span><span class="n">frame</span><span class="p">(</span><span class="n">elem_login_frame</span><span class="p">)</span>
+        <span class="err">#</span> <span class="nx">WebDriver</span> <span class="err">每次只能在一个页面上识别元素</span>
+        <span class="err">#</span> <span class="err">对于</span> <span class="nx">frame</span> <span class="err">嵌套内的页面上的元素，直接定位是定位是定位不到的</span>
+        <span class="err">#</span> <span class="err">需要通过</span> <span class="nx">switch_to_frame</span><span class="p">()</span> <span class="err">方法将当前定位的主体切换了</span> <span class="nx">frame</span> <span class="err">里</span>
+        <span class="nx">elem_login_by_account</span> <span class="o">=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">driver</span><span class="p">.</span><span class="nx">find_element</span><span class="p">(</span><span class="nx">By</span><span class="p">.</span><span class="nx">ID</span><span class="p">,</span> <span class="s2">&quot;loginByAccount&quot;</span><span class="p">)</span>
+        <span class="nx">elem_login_frame</span> <span class="o">=</span> <span class="nx">elem_login_by_account</span><span class="p">.</span><span class="nx">find_element</span><span class="p">(</span><span class="nx">By</span><span class="p">.</span><span class="nx">TAG_NAME</span><span class="p">,</span> <span class="s2">&quot;iframe&quot;</span><span class="p">)</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">driver</span><span class="p">.</span><span class="nx">switch_to</span><span class="p">.</span><span class="nx">frame</span><span class="p">(</span><span class="nx">elem_login_frame</span><span class="p">)</span>
 
-        <span class="c1"># 找到 email 输入框、password 输入框 和 登录按钮</span>
-        <span class="n">elem_email</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="o">.</span><span class="n">NAME</span><span class="p">,</span> <span class="s2">&quot;email&quot;</span><span class="p">)</span>
-        <span class="n">elem_password</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="o">.</span><span class="n">NAME</span><span class="p">,</span> <span class="s2">&quot;password&quot;</span><span class="p">)</span>
-        <span class="n">elem_dologin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="o">.</span><span class="n">ID</span><span class="p">,</span> <span class="s2">&quot;dologin&quot;</span><span class="p">)</span>
+        <span class="err">#</span> <span class="err">找到</span> <span class="nx">email</span> <span class="err">输入框、</span><span class="nx">password</span> <span class="err">输入框</span> <span class="err">和</span> <span class="err">登录按钮</span>
+        <span class="nx">elem_email</span> <span class="o">=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">driver</span><span class="p">.</span><span class="nx">find_element</span><span class="p">(</span><span class="nx">By</span><span class="p">.</span><span class="nx">NAME</span><span class="p">,</span> <span class="s2">&quot;email&quot;</span><span class="p">)</span>
+        <span class="nx">elem_password</span> <span class="o">=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">driver</span><span class="p">.</span><span class="nx">find_element</span><span class="p">(</span><span class="nx">By</span><span class="p">.</span><span class="nx">NAME</span><span class="p">,</span> <span class="s2">&quot;password&quot;</span><span class="p">)</span>
+        <span class="nx">elem_dologin</span> <span class="o">=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">driver</span><span class="p">.</span><span class="nx">find_element</span><span class="p">(</span><span class="nx">By</span><span class="p">.</span><span class="nx">ID</span><span class="p">,</span> <span class="s2">&quot;dologin&quot;</span><span class="p">)</span>
 
-        <span class="c1"># 清除输入框内容（因为某些网站或浏览器可能会有记住用户名的功能）</span>
-        <span class="n">elem_email</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
-        <span class="n">elem_password</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="err">#</span> <span class="err">清除输入框内容（因为某些网站或浏览器可能会有记住用户名的功能）</span>
+        <span class="nx">elem_email</span><span class="p">.</span><span class="nx">clear</span><span class="p">()</span>
+        <span class="nx">elem_password</span><span class="p">.</span><span class="nx">clear</span><span class="p">()</span>
 
-        <span class="c1"># 输入邮箱和密码</span>
-        <span class="n">elem_email</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">email</span><span class="p">)</span>
-        <span class="n">elem_password</span> <span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">)</span>
+        <span class="err">#</span> <span class="err">输入邮箱和密码</span>
+        <span class="nx">elem_email</span><span class="p">.</span><span class="nx">send_keys</span><span class="p">(</span><span class="nx">self</span><span class="p">.</span><span class="nx">email</span><span class="p">)</span>
+        <span class="nx">elem_password</span> <span class="p">.</span><span class="nx">send_keys</span><span class="p">(</span><span class="nx">self</span><span class="p">.</span><span class="nx">password</span><span class="p">)</span>
 
-        <span class="c1"># 点击登陆按钮</span>
-        <span class="n">elem_dologin</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+        <span class="err">#</span> <span class="err">点击登陆按钮</span>
+        <span class="nx">elem_dologin</span><span class="p">.</span><span class="nx">click</span><span class="p">()</span>
 
-        <span class="c1"># 等待页面加载，直到页面出现 id 为 &quot;accountManage&quot; 的元素</span>
-        <span class="c1"># 如果超过指定的时间（这里为 self.delay），则会抛出一个 TimeoutException 的异常</span>
-        <span class="n">WebDriverWait</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">delay</span><span class="p">)</span><span class="o">.</span><span class="n">until</span><span class="p">(</span>
-            <span class="n">EC</span><span class="o">.</span><span class="n">presence_of_element_located</span><span class="p">((</span><span class="n">By</span><span class="o">.</span><span class="n">ID</span><span class="p">,</span> <span class="s2">&quot;accountManage&quot;</span><span class="p">))</span>
+        <span class="err">#</span> <span class="err">等待页面加载，直到页面出现</span> <span class="nx">id</span> <span class="err">为</span> <span class="s2">&quot;accountManage&quot;</span> <span class="err">的元素</span>
+        <span class="err">#</span> <span class="err">如果超过指定的时间（这里为</span> <span class="nx">self</span><span class="p">.</span><span class="nx">delay</span><span class="err">），则会抛出一个</span> <span class="nx">TimeoutException</span> <span class="err">的异常</span>
+        <span class="nx">WebDriverWait</span><span class="p">(</span><span class="nx">self</span><span class="p">.</span><span class="nx">driver</span><span class="p">,</span> <span class="nx">self</span><span class="p">.</span><span class="nx">delay</span><span class="p">).</span><span class="nx">until</span><span class="p">(</span>
+            <span class="nx">EC</span><span class="p">.</span><span class="nx">presence_of_element_located</span><span class="p">((</span><span class="nx">By</span><span class="p">.</span><span class="nx">ID</span><span class="p">,</span> <span class="s2">&quot;accountManage&quot;</span><span class="p">))</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">login</span><span class="p">()</span>
+    <span class="nx">def</span> <span class="nx">run</span><span class="p">(</span><span class="nx">self</span><span class="p">)</span><span class="o">:</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">login</span><span class="p">()</span>
 
-        <span class="c1"># 打开用户信息页面</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">account_info_url</span><span class="p">)</span>
+        <span class="err">#</span> <span class="err">打开用户信息页面</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">driver</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">self</span><span class="p">.</span><span class="nx">account_info_url</span><span class="p">)</span>
 
-        <span class="c1"># 打印登录用户的昵称</span>
-        <span class="n">nickname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="o">.</span><span class="n">CLASS_NAME</span><span class="p">,</span> <span class="s2">&quot;clear&quot;</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">nickname</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+        <span class="err">#</span> <span class="err">打印登录用户的昵称</span>
+        <span class="nx">nickname</span> <span class="o">=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">driver</span><span class="p">.</span><span class="nx">find_element</span><span class="p">(</span><span class="nx">By</span><span class="p">.</span><span class="nx">CLASS_NAME</span><span class="p">,</span> <span class="s2">&quot;clear&quot;</span><span class="p">)</span>
+        <span class="nx">print</span><span class="p">(</span><span class="nx">nickname</span><span class="p">.</span><span class="nx">text</span><span class="p">)</span>
 
-        <span class="c1"># 退出浏览器</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+        <span class="err">#</span> <span class="err">退出浏览器</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">driver</span><span class="p">.</span><span class="nx">quit</span><span class="p">()</span>
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">Netease</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="k">if</span> <span class="nx">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="o">:</span>
+    <span class="nx">Netease</span><span class="p">().</span><span class="nx">run</span><span class="p">()</span>
 </pre></div>
 
 
@@ -150,86 +150,86 @@
 <p>简单的说，PhantomJS 是个无头的（headless）浏览器。</p>
 <p>下载地址：<a href="http://phantomjs.org/download.html">http://phantomjs.org/download.html</a></p>
 <p>主要修改地方：</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="n">Netease</span>(<span class="n">object</span>):
-    <span class="n">def</span> <span class="n">__init__</span>(<span class="k">self</span>):
-        <span class="c c-Singleline"># 省略 ...</span>
-        <span class="c c-Singleline"># 这里写上 phantomjs 的路径</span>
-        <span class="n">executable_path</span> = <span class="s">&quot;C:\Python27\phantomjs.exe&quot;</span>
-        <span class="k">self</span>.<span class="n">driver</span> = <span class="n">webdriver</span>.<span class="n">PhantomJS</span>(<span class="n">executable_path</span>=<span class="n">executable_path</span>)
-        <span class="c c-Singleline"># 省略 ...</span>
+<div class="highlight"><pre><span class="n">class</span> <span class="n">Netease</span><span class="p">(</span><span class="n">object</span><span class="p">)</span><span class="o">:</span>
+    <span class="n">def</span> <span class="n">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
+        <span class="err">#</span> <span class="err">省略</span> <span class="p">...</span>
+        <span class="err">#</span> <span class="err">这里写上</span> <span class="n">phantomjs</span> <span class="err">的路径</span>
+        <span class="n">executable_path</span> <span class="o">=</span> <span class="s">&quot;C:\Python27\phantomjs.exe&quot;</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="p">.</span><span class="n">PhantomJS</span><span class="p">(</span><span class="n">executable_path</span><span class="o">=</span><span class="n">executable_path</span><span class="p">)</span>
+        <span class="err">#</span> <span class="err">省略</span> <span class="p">...</span>
 
-    <span class="n">def</span> <span class="n">login</span>(<span class="k">self</span>):
-        <span class="c c-Singleline"># 省略 ...</span>
-        <span class="c c-Singleline"># 请看这里：https://github.com/detro/ghostdriver/issues/159</span>
-        <span class="c c-Singleline"># 简单的说就是：如果 frame 元素没有 name 属性，GD 就会无法处理。</span>
-        <span class="c c-Singleline"># 使用 driver.switch_to_frame(1) 就能很好的解决当 iframes 没有 name 属性这个问题</span>
-        <span class="k">self</span>.<span class="n">driver</span>.<span class="n">switch_to</span>.<span class="n">frame</span>(<span class="mi">1</span>)
-        <span class="c c-Singleline"># 省略 ...</span>
+    <span class="n">def</span> <span class="n">login</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
+        <span class="err">#</span> <span class="err">省略</span> <span class="p">...</span>
+        <span class="err">#</span> <span class="err">请看这里：</span><span class="n">https</span><span class="o">:</span><span class="c1">//github.com/detro/ghostdriver/issues/159</span>
+        <span class="err">#</span> <span class="err">简单的说就是：如果</span> <span class="n">frame</span> <span class="err">元素没有</span> <span class="n">name</span> <span class="err">属性，</span><span class="n">GD</span> <span class="err">就会无法处理。</span>
+        <span class="err">#</span> <span class="err">使用</span> <span class="n">driver</span><span class="p">.</span><span class="n">switch_to_frame</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="err">就能很好的解决当</span> <span class="n">iframes</span> <span class="err">没有</span> <span class="n">name</span> <span class="err">属性这个问题</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">driver</span><span class="p">.</span><span class="n">switch_to</span><span class="p">.</span><span class="n">frame</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="err">#</span> <span class="err">省略</span> <span class="p">...</span>
 </pre></div>
 
 
 <hr />
 <h1>Example3：登录淘宝</h1>
-<div class="highlight"><pre><span></span><span class="c1"># coding: utf8</span>
+<div class="highlight"><pre><span class="cp"># coding: utf8</span>
 
-<span class="kn">from</span> <span class="nn">selenium</span> <span class="kn">import</span> <span class="n">webdriver</span>
-<span class="kn">from</span> <span class="nn">selenium.webdriver.common.by</span> <span class="kn">import</span> <span class="n">By</span>
-<span class="kn">import</span> <span class="nn">random</span>
-<span class="kn">import</span> <span class="nn">time</span>
+<span class="n">from</span> <span class="n">selenium</span> <span class="n">import</span> <span class="n">webdriver</span>
+<span class="n">from</span> <span class="n">selenium</span><span class="p">.</span><span class="n">webdriver</span><span class="p">.</span><span class="n">common</span><span class="p">.</span><span class="n">by</span> <span class="n">import</span> <span class="n">By</span>
+<span class="n">import</span> <span class="n">random</span>
+<span class="n">import</span> <span class="n">time</span>
 
 
-<span class="k">class</span> <span class="nc">Alimama</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">login_url</span> <span class="o">=</span> <span class="s2">&quot;https://www.alimama.com/member/login.htm?forward=http%3A</span><span class="si">%2F%2F</span><span class="s2">ad.alimama.com</span><span class="si">%2F</span><span class="s2">index.htm&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="s2">&quot;your_username&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="s2">&quot;your_password&quot;</span>
+<span class="n">class</span> <span class="n">Alimama</span><span class="p">(</span><span class="n">object</span><span class="p">)</span><span class="o">:</span>
+    <span class="n">def</span> <span class="n">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">login_url</span> <span class="o">=</span> <span class="s">&quot;https://www.alimama.com/member/login.htm?forward=http%3A%2F%2Fad.alimama.com%2Findex.htm&quot;</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">username</span> <span class="o">=</span> <span class="s">&quot;your_username&quot;</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">password</span> <span class="o">=</span> <span class="s">&quot;your_password&quot;</span>
 
-        <span class="c1"># executable_path = &quot;C:\Program Files (x86)\Internet Explorer\IEDriverServer.exe&quot;</span>
-        <span class="n">executable_path</span> <span class="o">=</span> <span class="s2">&quot;C:\Program Files (x86)\Internet Explorer\IEDriverServer_win32.exe&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Ie</span><span class="p">(</span><span class="n">executable_path</span><span class="o">=</span><span class="n">executable_path</span><span class="p">)</span>
+        <span class="err">#</span> <span class="n">executable_path</span> <span class="o">=</span> <span class="s">&quot;C:\Program Files (x86)\Internet Explorer\IEDriverServer.exe&quot;</span>
+        <span class="n">executable_path</span> <span class="o">=</span> <span class="s">&quot;C:\Program Files (x86)\Internet Explorer\IEDriverServer_win32.exe&quot;</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="p">.</span><span class="n">Ie</span><span class="p">(</span><span class="n">executable_path</span><span class="o">=</span><span class="n">executable_path</span><span class="p">)</span>
 
-        <span class="c1"># set default delay time</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">set_page_load_timeout</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">implicitly_wait</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+        <span class="err">#</span> <span class="n">set</span> <span class="k">default</span> <span class="n">delay</span> <span class="n">time</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">driver</span><span class="p">.</span><span class="n">set_page_load_timeout</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">driver</span><span class="p">.</span><span class="n">implicitly_wait</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">random_wait</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">2.1</span> <span class="o">+</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="n">def</span> <span class="n">random_wait</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
+        <span class="n">time</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">2.1</span> <span class="o">+</span> <span class="n">random</span><span class="p">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">login</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># open login page</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">login_url</span><span class="p">)</span>
+    <span class="n">def</span> <span class="n">login</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
+        <span class="err">#</span> <span class="n">open</span> <span class="n">login</span> <span class="n">page</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">driver</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">login_url</span><span class="p">)</span>
 
-        <span class="c1"># switch iframe</span>
-        <span class="n">iframe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="o">.</span><span class="n">NAME</span><span class="p">,</span> <span class="s2">&quot;taobaoLoginIfr&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">switch_to</span><span class="o">.</span><span class="n">frame</span><span class="p">(</span><span class="n">iframe</span><span class="p">)</span>
+        <span class="err">#</span> <span class="k">switch</span> <span class="n">iframe</span>
+        <span class="n">iframe</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">driver</span><span class="p">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="n">NAME</span><span class="p">,</span> <span class="s">&quot;taobaoLoginIfr&quot;</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">driver</span><span class="p">.</span><span class="n">switch_to</span><span class="p">.</span><span class="n">frame</span><span class="p">(</span><span class="n">iframe</span><span class="p">)</span>
 
-        <span class="c1"># find elements</span>
-        <span class="n">elem_quick2static</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="o">.</span><span class="n">ID</span><span class="p">,</span> <span class="s2">&quot;J_Quick2Static&quot;</span><span class="p">)</span>       <span class="c1"># 扫一扫登录 切换到 密码登录</span>
-        <span class="n">elem_username</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="o">.</span><span class="n">ID</span><span class="p">,</span> <span class="s2">&quot;TPL_username_1&quot;</span><span class="p">)</span>
-        <span class="n">elem_password</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="o">.</span><span class="n">ID</span><span class="p">,</span> <span class="s2">&quot;TPL_password_1&quot;</span><span class="p">)</span>
-        <span class="n">elem_login_btn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="o">.</span><span class="n">ID</span><span class="p">,</span> <span class="s2">&quot;J_SubmitStatic&quot;</span><span class="p">)</span>
+        <span class="err">#</span> <span class="n">find</span> <span class="n">elements</span>
+        <span class="n">elem_quick2static</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">driver</span><span class="p">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="n">ID</span><span class="p">,</span> <span class="s">&quot;J_Quick2Static&quot;</span><span class="p">)</span>       <span class="err">#</span> <span class="err">扫一扫登录</span> <span class="err">切换到</span> <span class="err">密码登录</span>
+        <span class="n">elem_username</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">driver</span><span class="p">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="n">ID</span><span class="p">,</span> <span class="s">&quot;TPL_username_1&quot;</span><span class="p">)</span>
+        <span class="n">elem_password</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">driver</span><span class="p">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="n">ID</span><span class="p">,</span> <span class="s">&quot;TPL_password_1&quot;</span><span class="p">)</span>
+        <span class="n">elem_login_btn</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">driver</span><span class="p">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="n">ID</span><span class="p">,</span> <span class="s">&quot;J_SubmitStatic&quot;</span><span class="p">)</span>
 
-        <span class="c1"># 出现 扫一扫登录 切换到 密码登录按钮，点击该按钮。切换到 密码登录 模式</span>
-        <span class="k">if</span> <span class="n">elem_quick2static</span><span class="o">.</span><span class="n">is_displayed</span><span class="p">():</span>
-            <span class="n">elem_quick2static</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+        <span class="err">#</span> <span class="err">出现</span> <span class="err">扫一扫登录</span> <span class="err">切换到</span> <span class="err">密码登录按钮，点击该按钮。切换到</span> <span class="err">密码登录</span> <span class="err">模式</span>
+        <span class="k">if</span> <span class="n">elem_quick2static</span><span class="p">.</span><span class="n">is_displayed</span><span class="p">()</span><span class="o">:</span>
+            <span class="n">elem_quick2static</span><span class="p">.</span><span class="n">click</span><span class="p">()</span>
 
-        <span class="c1"># clear username and password</span>
-        <span class="n">elem_username</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
-        <span class="n">elem_password</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="err">#</span> <span class="n">clear</span> <span class="n">username</span> <span class="n">and</span> <span class="n">password</span>
+        <span class="n">elem_username</span><span class="p">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="n">elem_password</span><span class="p">.</span><span class="n">clear</span><span class="p">()</span>
 
-        <span class="c1"># key your username and password</span>
-        <span class="n">elem_username</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">username</span><span class="p">)</span>
-        <span class="n">elem_password</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">)</span>
+        <span class="err">#</span> <span class="n">key</span> <span class="n">your</span> <span class="n">username</span> <span class="n">and</span> <span class="n">password</span>
+        <span class="n">elem_username</span><span class="p">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">username</span><span class="p">)</span>
+        <span class="n">elem_password</span><span class="p">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">password</span><span class="p">)</span>
 
-        <span class="c1"># 等待数秒钟再登陆</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">random_wait</span><span class="p">()</span>
-        <span class="n">elem_login_btn</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+        <span class="err">#</span> <span class="err">等待数秒钟再登陆</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">random_wait</span><span class="p">()</span>
+        <span class="n">elem_login_btn</span><span class="p">.</span><span class="n">click</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">login</span><span class="p">()</span>
+    <span class="n">def</span> <span class="n">run</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">login</span><span class="p">()</span>
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">Alimama</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="err">&#39;</span><span class="n">__main__</span><span class="err">&#39;</span><span class="o">:</span>
+    <span class="n">Alimama</span><span class="p">().</span><span class="n">run</span><span class="p">()</span>
 </pre></div>
 
 
@@ -249,90 +249,90 @@
 <h1>WebDriver API</h1>
 <h2>定位</h2>
 <h3>通过 find_element*</h3>
-<div class="highlight"><pre><span></span># 寻找单个元素
-find_element_by_id()
-find_element_by_name()
-find_element_by_class_name()
-find_element_by_tag_name()
-find_element_by_link_text()
-find_element_by_partial_link_text()
-find_element_by_xpath()
-find_element_by_css_selector()
+<div class="highlight"><pre><span class="cp"># 寻找单个元素</span>
+<span class="n">find_element_by_id</span><span class="p">()</span>
+<span class="n">find_element_by_name</span><span class="p">()</span>
+<span class="n">find_element_by_class_name</span><span class="p">()</span>
+<span class="n">find_element_by_tag_name</span><span class="p">()</span>
+<span class="n">find_element_by_link_text</span><span class="p">()</span>
+<span class="n">find_element_by_partial_link_text</span><span class="p">()</span>
+<span class="n">find_element_by_xpath</span><span class="p">()</span>
+<span class="n">find_element_by_css_selector</span><span class="p">()</span>
 
-# 寻找多个元素
-find_elements_by_id()
-find_elements_by_name()
-find_elements_by_class_name()
-find_elements_by_tag_name()
-find_elements_by_link_text()
-find_elements_by_partial_link_text()
-find_elements_by_xpath()
-find_elements_by_css_selector()
+<span class="cp"># 寻找多个元素</span>
+<span class="n">find_elements_by_id</span><span class="p">()</span>
+<span class="n">find_elements_by_name</span><span class="p">()</span>
+<span class="n">find_elements_by_class_name</span><span class="p">()</span>
+<span class="n">find_elements_by_tag_name</span><span class="p">()</span>
+<span class="n">find_elements_by_link_text</span><span class="p">()</span>
+<span class="n">find_elements_by_partial_link_text</span><span class="p">()</span>
+<span class="n">find_elements_by_xpath</span><span class="p">()</span>
+<span class="n">find_elements_by_css_selector</span><span class="p">()</span>
 </pre></div>
 
 
 <h3>通过 By 定位</h3>
-<div class="highlight"><pre><span></span><span class="c1"># find_element()方法需要两个参数：第一个参数是定位方式，这个由 By 提供；另</span>
+<div class="highlight"><pre><span class="cp"># find_element()方法需要两个参数：第一个参数是定位方式，这个由 By 提供；另</span>
 <span class="err">第二个参数是定位的值。</span>
-<span class="c1"># 在使用 By 时需要将 By 类导入。from selenium.webdriver.common.by import By</span>
+<span class="cp"># 在使用 By 时需要将 By 类导入。from selenium.webdriver.common.by import By</span>
 
-<span class="c1"># 寻找单个元素</span>
-<span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="o">.</span><span class="n">ID</span><span class="p">,</span><span class="s2">&quot;kw&quot;</span><span class="p">)</span>
-<span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="o">.</span><span class="n">NAME</span><span class="p">,</span><span class="s2">&quot;wd&quot;</span><span class="p">)</span>
-<span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="o">.</span><span class="n">CLASS_NAME</span><span class="p">,</span><span class="s2">&quot;s_ipt&quot;</span><span class="p">)</span>
-<span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="o">.</span><span class="n">TAG_NAME</span><span class="p">,</span><span class="s2">&quot;input&quot;</span><span class="p">)</span>
-<span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="o">.</span><span class="n">LINK_TEXT</span><span class="p">,</span><span class="s2">u&quot;新闻&quot;</span><span class="p">)</span>
-<span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="o">.</span><span class="n">PARTIAL_LINK_TEXT</span><span class="p">,</span><span class="s2">u&quot;新&quot;</span><span class="p">)</span>
-<span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="o">.</span><span class="n">XPATH</span><span class="p">,</span><span class="s2">&quot;//*[@class=&#39;bg s_btn&#39;]&quot;</span><span class="p">)</span>
-<span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="o">.</span><span class="n">CSS_SELECTOR</span><span class="p">,</span><span class="s2">&quot;span.bg s_btn_wr&gt;input#su&quot;</span><span class="p">)</span>
+<span class="cp"># 寻找单个元素</span>
+<span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="n">ID</span><span class="p">,</span><span class="s">&quot;kw&quot;</span><span class="p">)</span>
+<span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="n">NAME</span><span class="p">,</span><span class="s">&quot;wd&quot;</span><span class="p">)</span>
+<span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="n">CLASS_NAME</span><span class="p">,</span><span class="s">&quot;s_ipt&quot;</span><span class="p">)</span>
+<span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="n">TAG_NAME</span><span class="p">,</span><span class="s">&quot;input&quot;</span><span class="p">)</span>
+<span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="n">LINK_TEXT</span><span class="p">,</span><span class="n">u</span><span class="s">&quot;新闻&quot;</span><span class="p">)</span>
+<span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="n">PARTIAL_LINK_TEXT</span><span class="p">,</span><span class="n">u</span><span class="s">&quot;新&quot;</span><span class="p">)</span>
+<span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="n">XPATH</span><span class="p">,</span><span class="s">&quot;//*[@class=&#39;bg s_btn&#39;]&quot;</span><span class="p">)</span>
+<span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="n">CSS_SELECTOR</span><span class="p">,</span><span class="s">&quot;span.bg s_btn_wr&gt;input#su&quot;</span><span class="p">)</span>
 
-<span class="c1"># 寻找多个元素，将 find_element 改为 find_elements</span>
+<span class="cp"># 寻找多个元素，将 find_element 改为 find_elements</span>
 </pre></div>
 
 
 <h2>元素操作</h2>
-<div class="highlight"><pre><span></span># 方法
-clear() 清除文本，如果是一个文件输入框
-send_keys(*value) 在元素上模拟按键输入
-click() 单击元素
-submit()方法用于提交表单，这里特别用于没提交按钮的情况。
+<div class="highlight"><pre><span class="cp"># 方法</span>
+<span class="n">clear</span><span class="p">()</span> <span class="err">清除文本，如果是一个文件输入框</span>
+<span class="n">send_keys</span><span class="p">(</span><span class="o">*</span><span class="n">value</span><span class="p">)</span> <span class="err">在元素上模拟按键输入</span>
+<span class="n">click</span><span class="p">()</span> <span class="err">单击元素</span>
+<span class="n">submit</span><span class="p">()</span><span class="err">方法用于提交表单，这里特别用于没提交按钮的情况。</span>
 
-# 属性
-size 返回元素的尺寸。
-text 获取元素的文本。
-get_attribute(name) 获得属性值。
-is_displayed() 设置该元素是否用户可见。
+<span class="cp"># 属性</span>
+<span class="n">size</span> <span class="err">返回元素的尺寸。</span>
+<span class="n">text</span> <span class="err">获取元素的文本。</span>
+<span class="n">get_attribute</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="err">获得属性值。</span>
+<span class="n">is_displayed</span><span class="p">()</span> <span class="err">设置该元素是否用户可见。</span>
 </pre></div>
 
 
 <h2>控制浏览器</h2>
-<div class="highlight"><pre><span></span># 控制浏览器大小
-driver.set_window_size(480, 800)
+<div class="highlight"><pre><span class="cp"># 控制浏览器大小</span>
+<span class="n">driver</span><span class="p">.</span><span class="n">set_window_size</span><span class="p">(</span><span class="mi">480</span><span class="p">,</span> <span class="mi">800</span><span class="p">)</span>
 
-# 控制浏览器行为
-# 后退
-driver.back()
-# 前进
-driver.forward()
-# 退出
-driver.quit()
+<span class="cp"># 控制浏览器行为</span>
+<span class="cp"># 后退</span>
+<span class="n">driver</span><span class="p">.</span><span class="n">back</span><span class="p">()</span>
+<span class="cp"># 前进</span>
+<span class="n">driver</span><span class="p">.</span><span class="n">forward</span><span class="p">()</span>
+<span class="cp"># 退出</span>
+<span class="n">driver</span><span class="p">.</span><span class="n">quit</span><span class="p">()</span>
 </pre></div>
 
 
 <h2>鼠标事件</h2>
-<div class="highlight"><pre><span></span>perform() 执行所有 ActionChains 中存储的行为
-context_click() 右击
-double_click() 双击
-drag_and_drop() 拖动
-move_to_element() 鼠标悬停
+<div class="highlight"><pre><span class="n">perform</span><span class="p">()</span> <span class="err">执行所有</span> <span class="n">ActionChains</span> <span class="err">中存储的行为</span>
+<span class="n">context_click</span><span class="p">()</span> <span class="err">右击</span>
+<span class="n">double_click</span><span class="p">()</span> <span class="err">双击</span>
+<span class="n">drag_and_drop</span><span class="p">()</span> <span class="err">拖动</span>
+<span class="n">move_to_element</span><span class="p">()</span> <span class="err">鼠标悬停</span>
 </pre></div>
 
 
 <h3>一个简单的例子：右键操作</h3>
-<div class="highlight"><pre><span></span># 定位到要右击的元素
-right_click =driver.find_element_by_id(&quot;xx&quot;)
-# 对定位到的元素执行鼠标右键操作
-ActionChains(driver).context_click(right_click).perform()
+<div class="highlight"><pre><span class="cp"># 定位到要右击的元素</span>
+<span class="n">right_click</span> <span class="o">=</span><span class="n">driver</span><span class="p">.</span><span class="n">find_element_by_id</span><span class="p">(</span><span class="s">&quot;xx&quot;</span><span class="p">)</span>
+<span class="cp"># 对定位到的元素执行鼠标右键操作</span>
+<span class="n">ActionChains</span><span class="p">(</span><span class="n">driver</span><span class="p">).</span><span class="n">context_click</span><span class="p">(</span><span class="n">right_click</span><span class="p">).</span><span class="n">perform</span><span class="p">()</span>
 </pre></div>
 
 
@@ -340,19 +340,19 @@ ActionChains(driver).context_click(right_click).perform()
 <h3>显式等待</h3>
 <p>显式等待使 WebdDriver 等待某个条件成立时继续执行，否则在达到最大时长时抛弃超时异常
 （TimeoutException）。</p>
-<div class="highlight"><pre><span></span><span class="c1">#coding=utf-8</span>
-<span class="kn">from</span> <span class="nn">selenium</span> <span class="kn">import</span> <span class="n">webdriver</span>
-<span class="kn">from</span> <span class="nn">selenium.webdriver.common.by</span> <span class="kn">import</span> <span class="n">By</span>
-<span class="kn">from</span> <span class="nn">selenium.webdriver.support.ui</span> <span class="kn">import</span> <span class="n">WebDriverWait</span>
-<span class="kn">from</span> <span class="nn">selenium.webdriver.support</span> <span class="kn">import</span> <span class="n">expected_conditions</span> <span class="k">as</span> <span class="n">EC</span>
+<div class="highlight"><pre><span class="cp">#coding=utf-8</span>
+<span class="n">from</span> <span class="n">selenium</span> <span class="n">import</span> <span class="n">webdriver</span>
+<span class="n">from</span> <span class="n">selenium</span><span class="p">.</span><span class="n">webdriver</span><span class="p">.</span><span class="n">common</span><span class="p">.</span><span class="n">by</span> <span class="n">import</span> <span class="n">By</span>
+<span class="n">from</span> <span class="n">selenium</span><span class="p">.</span><span class="n">webdriver</span><span class="p">.</span><span class="n">support</span><span class="p">.</span><span class="n">ui</span> <span class="n">import</span> <span class="n">WebDriverWait</span>
+<span class="n">from</span> <span class="n">selenium</span><span class="p">.</span><span class="n">webdriver</span><span class="p">.</span><span class="n">support</span> <span class="n">import</span> <span class="n">expected_conditions</span> <span class="n">as</span> <span class="n">EC</span>
 
-<span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Firefox</span><span class="p">()</span>
-<span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://www.baidu.com&quot;</span><span class="p">)</span>
-<span class="n">element</span> <span class="o">=</span> <span class="n">WebDriverWait</span><span class="p">(</span><span class="n">driver</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">until</span><span class="p">(</span>
-<span class="n">EC</span><span class="o">.</span><span class="n">presence_of_element_located</span><span class="p">((</span><span class="n">By</span><span class="o">.</span><span class="n">ID</span><span class="p">,</span><span class="s2">&quot;kw&quot;</span><span class="p">))</span>
+<span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="p">.</span><span class="n">Firefox</span><span class="p">()</span>
+<span class="n">driver</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;http://www.baidu.com&quot;</span><span class="p">)</span>
+<span class="n">element</span> <span class="o">=</span> <span class="n">WebDriverWait</span><span class="p">(</span><span class="n">driver</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">).</span><span class="n">until</span><span class="p">(</span>
+<span class="n">EC</span><span class="p">.</span><span class="n">presence_of_element_located</span><span class="p">((</span><span class="n">By</span><span class="p">.</span><span class="n">ID</span><span class="p">,</span><span class="s">&quot;kw&quot;</span><span class="p">))</span>
 <span class="p">)</span>
-<span class="n">element</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="s1">&#39;selenium&#39;</span><span class="p">)</span>
-<span class="n">driver</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+<span class="n">element</span><span class="p">.</span><span class="n">send_keys</span><span class="p">(</span><span class="err">&#39;</span><span class="n">selenium</span><span class="err">&#39;</span><span class="p">)</span>
+<span class="n">driver</span><span class="p">.</span><span class="n">quit</span><span class="p">()</span>
 </pre></div>
 
 
@@ -360,17 +360,17 @@ ActionChains(driver).context_click(right_click).perform()
 <p>隐式等待是通过一定的时长等待页面所元素加载完成。哪果超出了设置的时长元素还没有被加载测抛
 NoSuchElementException 异常。WebDriver 提供了 implicitly_wait()方法来实现隐式等待，默认设置为 0。它
 的用法相对来说要简单的多。</p>
-<div class="highlight"><pre><span></span><span class="c1">#coding=utf-8</span>
-<span class="kn">from</span> <span class="nn">selenium</span> <span class="kn">import</span> <span class="n">webdriver</span>
-<span class="kn">from</span> <span class="nn">selenium.webdriver.support.ui</span> <span class="kn">import</span> <span class="n">WebDriverWait</span>
+<div class="highlight"><pre><span class="cp">#coding=utf-8</span>
+<span class="n">from</span> <span class="n">selenium</span> <span class="n">import</span> <span class="n">webdriver</span>
+<span class="n">from</span> <span class="n">selenium</span><span class="p">.</span><span class="n">webdriver</span><span class="p">.</span><span class="n">support</span><span class="p">.</span><span class="n">ui</span> <span class="n">import</span> <span class="n">WebDriverWait</span>
 
 
-<span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Firefox</span><span class="p">()</span>
-<span class="n">driver</span><span class="o">.</span><span class="n">implicitly_wait</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-<span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://www.baidu.com&quot;</span><span class="p">)</span>
-<span class="n">input_</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_id</span><span class="p">(</span><span class="s2">&quot;kw22&quot;</span><span class="p">)</span>
-<span class="n">input_</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="s1">&#39;selenium&#39;</span><span class="p">)</span>
-<span class="n">driver</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+<span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="p">.</span><span class="n">Firefox</span><span class="p">()</span>
+<span class="n">driver</span><span class="p">.</span><span class="n">implicitly_wait</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">driver</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;http://www.baidu.com&quot;</span><span class="p">)</span>
+<span class="n">input_</span> <span class="o">=</span> <span class="n">driver</span><span class="p">.</span><span class="n">find_element_by_id</span><span class="p">(</span><span class="s">&quot;kw22&quot;</span><span class="p">)</span>
+<span class="n">input_</span><span class="p">.</span><span class="n">send_keys</span><span class="p">(</span><span class="err">&#39;</span><span class="n">selenium</span><span class="err">&#39;</span><span class="p">)</span>
+<span class="n">driver</span><span class="p">.</span><span class="n">quit</span><span class="p">()</span>
 </pre></div>
 
 
@@ -384,21 +384,21 @@ NoSuchElementException 异常。WebDriver 提供了 implicitly_wait()方法来�
 <p>在 web 应用中经常会遇到 frame 嵌套页面的应用，页 WebDriver 每次只能在一个页面上识别元素，对
 于 frame 嵌套内的页面上的元素，直接定位是定位是定位不到的。这个时候就需要通过 switch_to_frame()
 方法将当前定位的主体切换了 frame 里。</p>
-<div class="highlight"><pre><span></span><span class="c1">#coding=utf-8</span>
-<span class="kn">from</span> <span class="nn">selenium</span> <span class="kn">import</span> <span class="n">webdriver</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">import</span> <span class="nn">os</span>
+<div class="highlight"><pre><span class="cp">#coding=utf-8</span>
+<span class="n">from</span> <span class="n">selenium</span> <span class="n">import</span> <span class="n">webdriver</span>
+<span class="n">import</span> <span class="n">time</span>
+<span class="n">import</span> <span class="n">os</span>
 
-<span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Firefox</span><span class="p">()</span>
-<span class="n">file_path</span> <span class="o">=</span> <span class="s1">&#39;file:///&#39;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;frame.html&#39;</span><span class="p">)</span>
-<span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
-<span class="c1">#切换到 iframe（id = &quot;if&quot;）</span>
-<span class="n">driver</span><span class="o">.</span><span class="n">switch_to_frame</span><span class="p">(</span><span class="s2">&quot;if&quot;</span><span class="p">)</span>
-<span class="c1">#下面就可以正常的操作元素了</span>
-<span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_id</span><span class="p">(</span><span class="s2">&quot;kw&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="s2">&quot;selenium&quot;</span><span class="p">)</span>
-<span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_id</span><span class="p">(</span><span class="s2">&quot;su&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
-<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">driver</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+<span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="p">.</span><span class="n">Firefox</span><span class="p">()</span>
+<span class="n">file_path</span> <span class="o">=</span> <span class="err">&#39;</span><span class="n">file</span><span class="o">:</span><span class="c1">///&#39; + os.path.abspath(&#39;frame.html&#39;)</span>
+<span class="n">driver</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+<span class="cp">#切换到 iframe（id = &quot;if&quot;）</span>
+<span class="n">driver</span><span class="p">.</span><span class="n">switch_to_frame</span><span class="p">(</span><span class="s">&quot;if&quot;</span><span class="p">)</span>
+<span class="cp">#下面就可以正常的操作元素了</span>
+<span class="n">driver</span><span class="p">.</span><span class="n">find_element_by_id</span><span class="p">(</span><span class="s">&quot;kw&quot;</span><span class="p">).</span><span class="n">send_keys</span><span class="p">(</span><span class="s">&quot;selenium&quot;</span><span class="p">)</span>
+<span class="n">driver</span><span class="p">.</span><span class="n">find_element_by_id</span><span class="p">(</span><span class="s">&quot;su&quot;</span><span class="p">).</span><span class="n">click</span><span class="p">()</span>
+<span class="n">time</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">driver</span><span class="p">.</span><span class="n">quit</span><span class="p">()</span>
 </pre></div>
 
 
@@ -426,7 +426,7 @@ NoSuchElementException 异常。WebDriver 提供了 implicitly_wait()方法来�
 					<div class="col-md-3">
 						<h4>Navigation</h4>
 						<ul class="list-unstyled my-list-style">
-							<li><a href="">zqhong</a></li>
+							<li><a href="https://zqhong.github.io/pelican-blog">zqhong</a></li>
 						</ul>
 					</div>
 					<div class="col-md-3">
@@ -439,10 +439,10 @@ NoSuchElementException 异常。WebDriver 提供了 implicitly_wait()方法来�
 					<div class="col-md-3">
 						<h4>Categories</h4>
 						<ul class="list-unstyled my-list-style">
-							<li><a href="/category/PHP.html">PHP (7)</a></li>
-							<li><a href="/category/Python.html">Python (2)</a></li>
-							<li><a href="/category/Python,-WEB.html">Python, WEB (1)</a></li>
-							<li><a href="/category/WEB.html">WEB (2)</a></li>
+							<li><a href="https://zqhong.github.io/pelican-blog/category/PHP.html">PHP (7)</a></li>
+							<li><a href="https://zqhong.github.io/pelican-blog/category/Python.html">Python (2)</a></li>
+							<li><a href="https://zqhong.github.io/pelican-blog/category/Python,-WEB.html">Python, WEB (1)</a></li>
+							<li><a href="https://zqhong.github.io/pelican-blog/category/WEB.html">WEB (2)</a></li>
 						</ul>
 					</div>
 					<div class="col-md-3">

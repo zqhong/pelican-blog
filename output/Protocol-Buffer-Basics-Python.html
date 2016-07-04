@@ -8,19 +8,19 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
 	<!--[if lt IE 9]>
-		<script src="/theme/html5.js"></script>
+		<script src="https://zqhong.github.io/pelican-blog/theme/html5.js"></script>
 		<![endif]-->
-	<link href="/theme/css/ipython.css" rel="stylesheet">
+	<link href="https://zqhong.github.io/pelican-blog/theme/css/ipython.css" rel="stylesheet">
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 	<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/simplex/bootstrap.min.css" rel="stylesheet">
-	<link href="/theme/css/local.css" rel="stylesheet">
-	<link href="/theme/css/pygments.css" rel="stylesheet">
+	<link href="https://zqhong.github.io/pelican-blog/theme/css/local.css" rel="stylesheet">
+	<link href="https://zqhong.github.io/pelican-blog/theme/css/pygments.css" rel="stylesheet">
 </head>
 <body>
 <div class="container">
 	<div class="page-header">
-		<h1><a href="/">zqhong</a>
+		<h1><a href="https://zqhong.github.io/pelican-blog/">zqhong</a>
 			<br><small>Simplicity is the ultimate sophistication</small></h1>	</div>
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
@@ -35,17 +35,17 @@
 	<div>
 		Category:
 		<span itemprop="articleSection">
-			<a href="/category/python-web.html" rel="category">Python, WEB</a>
+			<a href="https://zqhong.github.io/pelican-blog/category/python-web.html" rel="category">Python, WEB</a>
 		</span>
 	</div>
  
 	<div>
 		Tags:
 		<span itemprop="keywords">
-			<a href="/tag/python.html" rel="tag">Python</a>
+			<a href="https://zqhong.github.io/pelican-blog/tag/python.html" rel="tag">Python</a>
 		</span>
 		<span itemprop="keywords">
-			<a href="/tag/protocol-buffer.html" rel="tag">Protocol Buffer</a>
+			<a href="https://zqhong.github.io/pelican-blog/tag/protocol-buffer.html" rel="tag">Protocol Buffer</a>
 		</span>
 	</div>
 	<div itemprop="articleBody" class="article-body"><h1>Protocol Buffer 简介</h1>
@@ -59,39 +59,39 @@
 <!--more-->
 
 <h2>一：定义消息（message）</h2>
-<div class="highlight"><pre><span></span># filename: addressbook.proto
-# 声明包，避免冲突
-package tutorial;
+<div class="highlight"><pre><span class="cp"># filename: addressbook.proto</span>
+<span class="cp"># 声明包，避免冲突</span>
+<span class="n">package</span> <span class="n">tutorial</span><span class="p">;</span>
 
-# 定义一个 Person 消息
-message Person {
-  # required 是字段约束，string 是字段类型，name 是字段名，1 是字段编号
-  # required：必须赋值
-  required string name = 1;
-  required int32 id = 2;
-  # optional：可选赋值，可为空。如果没有指定默认值，则会使用该类型的默认值。
-  # 或者使用 [default = xxx] 指定默认值
-  optional string email = 3;
+<span class="cp"># 定义一个 Person 消息</span>
+<span class="n">message</span> <span class="n">Person</span> <span class="p">{</span>
+  <span class="err">#</span> <span class="n">required</span> <span class="err">是字段约束，</span><span class="n">string</span> <span class="err">是字段类型，</span><span class="n">name</span> <span class="err">是字段名，</span><span class="mi">1</span> <span class="err">是字段编号</span>
+  <span class="err">#</span> <span class="n">required</span><span class="err">：必须赋值</span>
+  <span class="n">required</span> <span class="n">string</span> <span class="n">name</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="n">required</span> <span class="n">int32</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+  <span class="err">#</span> <span class="n">optional</span><span class="err">：可选赋值，可为空。如果没有指定默认值，则会使用该类型的默认值。</span>
+  <span class="err">#</span> <span class="err">或者使用</span> <span class="p">[</span><span class="k">default</span> <span class="o">=</span> <span class="n">xxx</span><span class="p">]</span> <span class="err">指定默认值</span>
+  <span class="n">optional</span> <span class="n">string</span> <span class="n">email</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
 
-  enum PhoneType {
-    MOBILE = 0;
-    HOME = 1;
-    WORK = 2;
-  }
+  <span class="k">enum</span> <span class="n">PhoneType</span> <span class="p">{</span>
+    <span class="n">MOBILE</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">HOME</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">WORK</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+  <span class="p">}</span>
 
-  # 可以在 message 中嵌入另一个 message
-  message PhoneNumber {
-    required string number = 1;
-    optional PhoneType type = 2 [default = HOME];
-  }
+  <span class="err">#</span> <span class="err">可以在</span> <span class="n">message</span> <span class="err">中嵌入另一个</span> <span class="n">message</span>
+  <span class="n">message</span> <span class="n">PhoneNumber</span> <span class="p">{</span>
+    <span class="n">required</span> <span class="n">string</span> <span class="n">number</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">optional</span> <span class="n">PhoneType</span> <span class="n">type</span> <span class="o">=</span> <span class="mi">2</span> <span class="p">[</span><span class="k">default</span> <span class="o">=</span> <span class="n">HOME</span><span class="p">];</span>
+  <span class="p">}</span>
 
-  # repeated：集合字段，可以填充多个对象。
-  repeated PhoneNumber phone = 4;
-}
+  <span class="err">#</span> <span class="n">repeated</span><span class="err">：集合字段，可以填充多个对象。</span>
+  <span class="n">repeated</span> <span class="n">PhoneNumber</span> <span class="n">phone</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+<span class="p">}</span>
 
-message AddressBook {
-  repeated Person person = 1;
-}
+<span class="n">message</span> <span class="n">AddressBook</span> <span class="p">{</span>
+  <span class="n">repeated</span> <span class="n">Person</span> <span class="n">person</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
 </pre></div>
 
 
@@ -105,9 +105,9 @@ message AddressBook {
 <h3>安装 <code>protobuf compiler</code></h3>
 <p>在 debian/ubuntu/mint 系统中，直接使用 <code>sudo apt-get install protobuf-compiler</code> 安装。其他系统请参考：<a href="https://developers.google.com/protocol-buffers/docs/downloads">Download Protocol Buffers</a></p>
 <h3>开始生成代码</h3>
-<div class="highlight"><pre><span></span># 在当前目录下生成 Python 可用的代码
-# 如果是其他语言，使用：--cpp_out（C++）、--java_out（Java）
-protobuf --python_out=. addressbook.proto
+<div class="highlight"><pre><span class="cp"># 在当前目录下生成 Python 可用的代码</span>
+<span class="cp"># 如果是其他语言，使用：--cpp_out（C++）、--java_out（Java）</span>
+<span class="n">protobuf</span> <span class="o">--</span><span class="n">python_out</span><span class="o">=</span><span class="p">.</span> <span class="n">addressbook</span><span class="p">.</span><span class="n">proto</span>
 </pre></div>
 
 
@@ -117,103 +117,103 @@ protobuf --python_out=. addressbook.proto
 </em> ParseFromString(data)：从所给的 string 数据中解析 message</p>
 <p>其他请参考 <a href="https://developers.google.com/protocol-buffers/docs/reference/python/google.protobuf.message.Message-class">API 文档 - google.protobuf.message.Message-class</a></p>
 <h3>Writing a Message</h3>
-<div class="highlight"><pre><span></span><span class="c1"># filename: add_person.py</span>
-<span class="c1">#! /usr/bin/env python</span>
+<div class="highlight"><pre><span class="err">#</span> <span class="nx">filename</span><span class="o">:</span> <span class="nx">add_person</span><span class="p">.</span><span class="nx">py</span>
+<span class="err">#</span><span class="o">!</span> <span class="err">/usr/bin/env python</span>
 
-<span class="c1"># See README.txt for information and build instructions.</span>
+<span class="err">#</span> <span class="nx">See</span> <span class="nx">README</span><span class="p">.</span><span class="nx">txt</span> <span class="k">for</span> <span class="nx">information</span> <span class="nx">and</span> <span class="nx">build</span> <span class="nx">instructions</span><span class="p">.</span>
 
-<span class="kn">import</span> <span class="nn">addressbook_pb2</span>
-<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kr">import</span> <span class="nx">addressbook_pb2</span>
+<span class="kr">import</span> <span class="nx">sys</span>
 
-<span class="c1"># This function fills in a Person message based on user input.</span>
-<span class="k">def</span> <span class="nf">PromptForAddress</span><span class="p">(</span><span class="n">person</span><span class="p">):</span>
-  <span class="n">person</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">raw_input</span><span class="p">(</span><span class="s2">&quot;Enter person ID number: &quot;</span><span class="p">))</span>
-  <span class="n">person</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s2">&quot;Enter name: &quot;</span><span class="p">)</span>
+<span class="err">#</span> <span class="nx">This</span> <span class="kd">function</span> <span class="nx">fills</span> <span class="k">in</span> <span class="nx">a</span> <span class="nx">Person</span> <span class="nx">message</span> <span class="nx">based</span> <span class="nx">on</span> <span class="nx">user</span> <span class="nx">input</span><span class="p">.</span>
+<span class="nx">def</span> <span class="nx">PromptForAddress</span><span class="p">(</span><span class="nx">person</span><span class="p">)</span><span class="o">:</span>
+  <span class="nx">person</span><span class="p">.</span><span class="nx">id</span> <span class="o">=</span> <span class="kr">int</span><span class="p">(</span><span class="nx">raw_input</span><span class="p">(</span><span class="s2">&quot;Enter person ID number: &quot;</span><span class="p">))</span>
+  <span class="nx">person</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">raw_input</span><span class="p">(</span><span class="s2">&quot;Enter name: &quot;</span><span class="p">)</span>
 
-  <span class="n">email</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s2">&quot;Enter email address (blank for none): &quot;</span><span class="p">)</span>
-  <span class="k">if</span> <span class="n">email</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
-    <span class="n">person</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="n">email</span>
+  <span class="nx">email</span> <span class="o">=</span> <span class="nx">raw_input</span><span class="p">(</span><span class="s2">&quot;Enter email address (blank for none): &quot;</span><span class="p">)</span>
+  <span class="k">if</span> <span class="nx">email</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="o">:</span>
+    <span class="nx">person</span><span class="p">.</span><span class="nx">email</span> <span class="o">=</span> <span class="nx">email</span>
 
-  <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
-    <span class="n">number</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s2">&quot;Enter a phone number (or leave blank to finish): &quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">number</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+  <span class="k">while</span> <span class="nx">True</span><span class="o">:</span>
+    <span class="nx">number</span> <span class="o">=</span> <span class="nx">raw_input</span><span class="p">(</span><span class="s2">&quot;Enter a phone number (or leave blank to finish): &quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">number</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="o">:</span>
       <span class="k">break</span>
 
-    <span class="n">phone_number</span> <span class="o">=</span> <span class="n">person</span><span class="o">.</span><span class="n">phones</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
-    <span class="n">phone_number</span><span class="o">.</span><span class="n">number</span> <span class="o">=</span> <span class="n">number</span>
+    <span class="nx">phone_number</span> <span class="o">=</span> <span class="nx">person</span><span class="p">.</span><span class="nx">phones</span><span class="p">.</span><span class="nx">add</span><span class="p">()</span>
+    <span class="nx">phone_number</span><span class="p">.</span><span class="nx">number</span> <span class="o">=</span> <span class="nx">number</span>
 
-    <span class="nb">type</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s2">&quot;Is this a mobile, home, or work phone? &quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="s2">&quot;mobile&quot;</span><span class="p">:</span>
-      <span class="n">phone_number</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">addressbook_pb2</span><span class="o">.</span><span class="n">Person</span><span class="o">.</span><span class="n">MOBILE</span>
-    <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s2">&quot;home&quot;</span><span class="p">:</span>
-      <span class="n">phone_number</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">addressbook_pb2</span><span class="o">.</span><span class="n">Person</span><span class="o">.</span><span class="n">HOME</span>
-    <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s2">&quot;work&quot;</span><span class="p">:</span>
-      <span class="n">phone_number</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">addressbook_pb2</span><span class="o">.</span><span class="n">Person</span><span class="o">.</span><span class="n">WORK</span>
-    <span class="k">else</span><span class="p">:</span>
-      <span class="k">print</span> <span class="s2">&quot;Unknown phone type; leaving as default value.&quot;</span>
+    <span class="nx">type</span> <span class="o">=</span> <span class="nx">raw_input</span><span class="p">(</span><span class="s2">&quot;Is this a mobile, home, or work phone? &quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">type</span> <span class="o">==</span> <span class="s2">&quot;mobile&quot;</span><span class="o">:</span>
+      <span class="nx">phone_number</span><span class="p">.</span><span class="nx">type</span> <span class="o">=</span> <span class="nx">addressbook_pb2</span><span class="p">.</span><span class="nx">Person</span><span class="p">.</span><span class="nx">MOBILE</span>
+    <span class="nx">elif</span> <span class="nx">type</span> <span class="o">==</span> <span class="s2">&quot;home&quot;</span><span class="o">:</span>
+      <span class="nx">phone_number</span><span class="p">.</span><span class="nx">type</span> <span class="o">=</span> <span class="nx">addressbook_pb2</span><span class="p">.</span><span class="nx">Person</span><span class="p">.</span><span class="nx">HOME</span>
+    <span class="nx">elif</span> <span class="nx">type</span> <span class="o">==</span> <span class="s2">&quot;work&quot;</span><span class="o">:</span>
+      <span class="nx">phone_number</span><span class="p">.</span><span class="nx">type</span> <span class="o">=</span> <span class="nx">addressbook_pb2</span><span class="p">.</span><span class="nx">Person</span><span class="p">.</span><span class="nx">WORK</span>
+    <span class="k">else</span><span class="o">:</span>
+      <span class="nx">print</span> <span class="s2">&quot;Unknown phone type; leaving as default value.&quot;</span>
 
-<span class="c1"># Main procedure:  Reads the entire address book from a file,</span>
-<span class="c1">#   adds one person based on user input, then writes it back out to the same</span>
-<span class="c1">#   file.</span>
-<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
-  <span class="k">print</span> <span class="s2">&quot;Usage:&quot;</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;ADDRESS_BOOK_FILE&quot;</span>
-  <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="err">#</span> <span class="nx">Main</span> <span class="nx">procedure</span><span class="o">:</span>  <span class="nx">Reads</span> <span class="nx">the</span> <span class="nx">entire</span> <span class="nx">address</span> <span class="nx">book</span> <span class="nx">from</span> <span class="nx">a</span> <span class="nx">file</span><span class="p">,</span>
+<span class="err">#</span>   <span class="nx">adds</span> <span class="nx">one</span> <span class="nx">person</span> <span class="nx">based</span> <span class="nx">on</span> <span class="nx">user</span> <span class="nx">input</span><span class="p">,</span> <span class="nx">then</span> <span class="nx">writes</span> <span class="nx">it</span> <span class="nx">back</span> <span class="nx">out</span> <span class="nx">to</span> <span class="nx">the</span> <span class="nx">same</span>
+<span class="err">#</span>   <span class="nx">file</span><span class="p">.</span>
+<span class="k">if</span> <span class="nx">len</span><span class="p">(</span><span class="nx">sys</span><span class="p">.</span><span class="nx">argv</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="o">:</span>
+  <span class="nx">print</span> <span class="s2">&quot;Usage:&quot;</span><span class="p">,</span> <span class="nx">sys</span><span class="p">.</span><span class="nx">argv</span><span class="cp">[</span><span class="mi">0</span><span class="cp">]</span><span class="p">,</span> <span class="s2">&quot;ADDRESS_BOOK_FILE&quot;</span>
+  <span class="nx">sys</span><span class="p">.</span><span class="nx">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 
-<span class="n">address_book</span> <span class="o">=</span> <span class="n">addressbook_pb2</span><span class="o">.</span><span class="n">AddressBook</span><span class="p">()</span>
+<span class="nx">address_book</span> <span class="o">=</span> <span class="nx">addressbook_pb2</span><span class="p">.</span><span class="nx">AddressBook</span><span class="p">()</span>
 
-<span class="c1"># Read the existing address book.</span>
-<span class="k">try</span><span class="p">:</span>
-  <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">address_book</span><span class="o">.</span><span class="n">ParseFromString</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
-<span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
-  <span class="k">print</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;: File not found.  Creating a new file.&quot;</span>
+<span class="err">#</span> <span class="nx">Read</span> <span class="nx">the</span> <span class="nx">existing</span> <span class="nx">address</span> <span class="nx">book</span><span class="p">.</span>
+<span class="k">try</span><span class="o">:</span>
+  <span class="kd">with</span> <span class="nx">open</span><span class="p">(</span><span class="nx">sys</span><span class="p">.</span><span class="nx">argv</span><span class="cp">[</span><span class="mi">1</span><span class="cp">]</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="nx">as</span> <span class="nx">f</span><span class="o">:</span>
+    <span class="nx">address_book</span><span class="p">.</span><span class="nx">ParseFromString</span><span class="p">(</span><span class="nx">f</span><span class="p">.</span><span class="nx">read</span><span class="p">())</span>
+<span class="nx">except</span> <span class="nx">IOError</span><span class="o">:</span>
+  <span class="nx">print</span> <span class="nx">sys</span><span class="p">.</span><span class="nx">argv</span><span class="cp">[</span><span class="mi">1</span><span class="cp">]</span> <span class="o">+</span> <span class="s2">&quot;: File not found.  Creating a new file.&quot;</span>
 
-<span class="c1"># Add an address.</span>
-<span class="n">PromptForAddress</span><span class="p">(</span><span class="n">address_book</span><span class="o">.</span><span class="n">people</span><span class="o">.</span><span class="n">add</span><span class="p">())</span>
+<span class="err">#</span> <span class="nx">Add</span> <span class="nx">an</span> <span class="nx">address</span><span class="p">.</span>
+<span class="nx">PromptForAddress</span><span class="p">(</span><span class="nx">address_book</span><span class="p">.</span><span class="nx">people</span><span class="p">.</span><span class="nx">add</span><span class="p">())</span>
 
-<span class="c1"># Write the new address book back to disk.</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">address_book</span><span class="o">.</span><span class="n">SerializeToString</span><span class="p">())</span>
+<span class="err">#</span> <span class="nx">Write</span> <span class="nx">the</span> <span class="k">new</span> <span class="nx">address</span> <span class="nx">book</span> <span class="nx">back</span> <span class="nx">to</span> <span class="nx">disk</span><span class="p">.</span>
+<span class="kd">with</span> <span class="nx">open</span><span class="p">(</span><span class="nx">sys</span><span class="p">.</span><span class="nx">argv</span><span class="cp">[</span><span class="mi">1</span><span class="cp">]</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="nx">as</span> <span class="nx">f</span><span class="o">:</span>
+  <span class="nx">f</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="nx">address_book</span><span class="p">.</span><span class="nx">SerializeToString</span><span class="p">())</span>
 </pre></div>
 
 
 <h3>Reading a Message</h3>
-<div class="highlight"><pre><span></span><span class="c1"># filename: list_people.py</span>
-<span class="c1">#! /usr/bin/env python</span>
+<div class="highlight"><pre><span class="cp"># filename: list_people.py</span>
+<span class="cp">#! /usr/bin/env python</span>
 
-<span class="c1"># See README.txt for information and build instructions.</span>
+<span class="cp"># See README.txt for information and build instructions.</span>
 
-<span class="kn">import</span> <span class="nn">addressbook_pb2</span>
-<span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">import</span> <span class="n">addressbook_pb2</span>
+<span class="n">import</span> <span class="n">sys</span>
 
-<span class="c1"># Iterates though all people in the AddressBook and prints info about them.</span>
-<span class="k">def</span> <span class="nf">ListPeople</span><span class="p">(</span><span class="n">address_book</span><span class="p">):</span>
-  <span class="k">for</span> <span class="n">person</span> <span class="ow">in</span> <span class="n">address_book</span><span class="o">.</span><span class="n">people</span><span class="p">:</span>
-    <span class="k">print</span> <span class="s2">&quot;Person ID:&quot;</span><span class="p">,</span> <span class="n">person</span><span class="o">.</span><span class="n">id</span>
-    <span class="k">print</span> <span class="s2">&quot;  Name:&quot;</span><span class="p">,</span> <span class="n">person</span><span class="o">.</span><span class="n">name</span>
-    <span class="k">if</span> <span class="n">person</span><span class="o">.</span><span class="n">email</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
-      <span class="k">print</span> <span class="s2">&quot;  E-mail address:&quot;</span><span class="p">,</span> <span class="n">person</span><span class="o">.</span><span class="n">email</span>
+<span class="cp"># Iterates though all people in the AddressBook and prints info about them.</span>
+<span class="n">def</span> <span class="n">ListPeople</span><span class="p">(</span><span class="n">address_book</span><span class="p">)</span><span class="o">:</span>
+  <span class="k">for</span> <span class="n">person</span> <span class="n">in</span> <span class="n">address_book</span><span class="p">.</span><span class="n">people</span><span class="o">:</span>
+    <span class="n">print</span> <span class="s">&quot;Person ID:&quot;</span><span class="p">,</span> <span class="n">person</span><span class="p">.</span><span class="n">id</span>
+    <span class="n">print</span> <span class="s">&quot;  Name:&quot;</span><span class="p">,</span> <span class="n">person</span><span class="p">.</span><span class="n">name</span>
+    <span class="k">if</span> <span class="n">person</span><span class="p">.</span><span class="n">email</span> <span class="o">!=</span> <span class="s">&quot;&quot;</span><span class="o">:</span>
+      <span class="n">print</span> <span class="s">&quot;  E-mail address:&quot;</span><span class="p">,</span> <span class="n">person</span><span class="p">.</span><span class="n">email</span>
 
-    <span class="k">for</span> <span class="n">phone_number</span> <span class="ow">in</span> <span class="n">person</span><span class="o">.</span><span class="n">phones</span><span class="p">:</span>
-      <span class="k">if</span> <span class="n">phone_number</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">addressbook_pb2</span><span class="o">.</span><span class="n">Person</span><span class="o">.</span><span class="n">MOBILE</span><span class="p">:</span>
-        <span class="k">print</span> <span class="s2">&quot;  Mobile phone #:&quot;</span><span class="p">,</span>
-      <span class="k">elif</span> <span class="n">phone_number</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">addressbook_pb2</span><span class="o">.</span><span class="n">Person</span><span class="o">.</span><span class="n">HOME</span><span class="p">:</span>
-        <span class="k">print</span> <span class="s2">&quot;  Home phone #:&quot;</span><span class="p">,</span>
-      <span class="k">elif</span> <span class="n">phone_number</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">addressbook_pb2</span><span class="o">.</span><span class="n">Person</span><span class="o">.</span><span class="n">WORK</span><span class="p">:</span>
-        <span class="k">print</span> <span class="s2">&quot;  Work phone #:&quot;</span><span class="p">,</span>
-      <span class="k">print</span> <span class="n">phone_number</span><span class="o">.</span><span class="n">number</span>
+    <span class="k">for</span> <span class="n">phone_number</span> <span class="n">in</span> <span class="n">person</span><span class="p">.</span><span class="n">phones</span><span class="o">:</span>
+      <span class="k">if</span> <span class="n">phone_number</span><span class="p">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">addressbook_pb2</span><span class="p">.</span><span class="n">Person</span><span class="p">.</span><span class="n">MOBILE</span><span class="o">:</span>
+        <span class="n">print</span> <span class="s">&quot;  Mobile phone #:&quot;</span><span class="p">,</span>
+      <span class="n">elif</span> <span class="n">phone_number</span><span class="p">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">addressbook_pb2</span><span class="p">.</span><span class="n">Person</span><span class="p">.</span><span class="n">HOME</span><span class="o">:</span>
+        <span class="n">print</span> <span class="s">&quot;  Home phone #:&quot;</span><span class="p">,</span>
+      <span class="n">elif</span> <span class="n">phone_number</span><span class="p">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">addressbook_pb2</span><span class="p">.</span><span class="n">Person</span><span class="p">.</span><span class="n">WORK</span><span class="o">:</span>
+        <span class="n">print</span> <span class="s">&quot;  Work phone #:&quot;</span><span class="p">,</span>
+      <span class="n">print</span> <span class="n">phone_number</span><span class="p">.</span><span class="n">number</span>
 
-<span class="c1"># Main procedure:  Reads the entire address book from a file and prints all</span>
-<span class="c1">#   the information inside.</span>
-<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
-  <span class="k">print</span> <span class="s2">&quot;Usage:&quot;</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;ADDRESS_BOOK_FILE&quot;</span>
-  <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="cp"># Main procedure:  Reads the entire address book from a file and prints all</span>
+<span class="cp">#   the information inside.</span>
+<span class="k">if</span> <span class="n">len</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="o">:</span>
+  <span class="n">print</span> <span class="s">&quot;Usage:&quot;</span><span class="p">,</span> <span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s">&quot;ADDRESS_BOOK_FILE&quot;</span>
+  <span class="n">sys</span><span class="p">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 
-<span class="n">address_book</span> <span class="o">=</span> <span class="n">addressbook_pb2</span><span class="o">.</span><span class="n">AddressBook</span><span class="p">()</span>
+<span class="n">address_book</span> <span class="o">=</span> <span class="n">addressbook_pb2</span><span class="p">.</span><span class="n">AddressBook</span><span class="p">()</span>
 
-<span class="c1"># Read the existing address book.</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-  <span class="n">address_book</span><span class="o">.</span><span class="n">ParseFromString</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+<span class="cp"># Read the existing address book.</span>
+<span class="n">with</span> <span class="n">open</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s">&quot;rb&quot;</span><span class="p">)</span> <span class="n">as</span> <span class="n">f</span><span class="o">:</span>
+  <span class="n">address_book</span><span class="p">.</span><span class="n">ParseFromString</span><span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="n">read</span><span class="p">())</span>
 
 <span class="n">ListPeople</span><span class="p">(</span><span class="n">address_book</span><span class="p">)</span>
 </pre></div>
@@ -239,7 +239,7 @@ protobuf --python_out=. addressbook.proto
 					<div class="col-md-3">
 						<h4>Navigation</h4>
 						<ul class="list-unstyled my-list-style">
-							<li><a href="">zqhong</a></li>
+							<li><a href="https://zqhong.github.io/pelican-blog">zqhong</a></li>
 						</ul>
 					</div>
 					<div class="col-md-3">
@@ -252,10 +252,10 @@ protobuf --python_out=. addressbook.proto
 					<div class="col-md-3">
 						<h4>Categories</h4>
 						<ul class="list-unstyled my-list-style">
-							<li><a href="/category/PHP.html">PHP (7)</a></li>
-							<li><a href="/category/Python.html">Python (2)</a></li>
-							<li><a href="/category/Python,-WEB.html">Python, WEB (1)</a></li>
-							<li><a href="/category/WEB.html">WEB (2)</a></li>
+							<li><a href="https://zqhong.github.io/pelican-blog/category/PHP.html">PHP (7)</a></li>
+							<li><a href="https://zqhong.github.io/pelican-blog/category/Python.html">Python (2)</a></li>
+							<li><a href="https://zqhong.github.io/pelican-blog/category/Python,-WEB.html">Python, WEB (1)</a></li>
+							<li><a href="https://zqhong.github.io/pelican-blog/category/WEB.html">WEB (2)</a></li>
 						</ul>
 					</div>
 					<div class="col-md-3">
