@@ -8,19 +8,19 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
 	<!--[if lt IE 9]>
-		<script src="/theme/html5.js"></script>
+		<script src="https://zqhong.github.io/pelican-blog/theme/html5.js"></script>
 		<![endif]-->
-	<link href="/theme/css/ipython.css" rel="stylesheet">
+	<link href="https://zqhong.github.io/pelican-blog/theme/css/ipython.css" rel="stylesheet">
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 	<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/simplex/bootstrap.min.css" rel="stylesheet">
-	<link href="/theme/css/local.css" rel="stylesheet">
-	<link href="/theme/css/pygments.css" rel="stylesheet">
+	<link href="https://zqhong.github.io/pelican-blog/theme/css/local.css" rel="stylesheet">
+	<link href="https://zqhong.github.io/pelican-blog/theme/css/pygments.css" rel="stylesheet">
 </head>
 <body>
 <div class="container">
 	<div class="page-header">
-		<h1><a href="/">zqhong</a>
+		<h1><a href="https://zqhong.github.io/pelican-blog/">zqhong</a>
 			<br><small>Simplicity is the ultimate sophistication</small></h1>	</div>
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
@@ -35,17 +35,17 @@
 	<div>
 		Category:
 		<span itemprop="articleSection">
-			<a href="/category/php.html" rel="category">PHP</a>
+			<a href="https://zqhong.github.io/pelican-blog/category/php.html" rel="category">PHP</a>
 		</span>
 	</div>
  
 	<div>
 		Tags:
 		<span itemprop="keywords">
-			<a href="/tag/php.html" rel="tag">php</a>
+			<a href="https://zqhong.github.io/pelican-blog/tag/php.html" rel="tag">php</a>
 		</span>
 		<span itemprop="keywords">
-			<a href="/tag/opcache.html" rel="tag">opcache</a>
+			<a href="https://zqhong.github.io/pelican-blog/tag/opcache.html" rel="tag">opcache</a>
 		</span>
 	</div>
 	<div itemprop="articleBody" class="article-body"><h3>Opcache 简介</h3>
@@ -61,7 +61,7 @@ OPcache 通过将 PHP 脚本预编译的字节码存储到共享内存中来提�
 <ol>
 <li>在网站根目录新建一个 <em>phpinfo.php</em> 的文件，内容为：</li>
 </ol>
-<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+<div class="highlight"><pre><span class="cp">&lt;?php</span>
 <span class="k">echo</span> <span class="nb">phpinfo</span><span class="p">();</span>
 </pre></div>
 
@@ -71,7 +71,7 @@ OPcache 通过将 PHP 脚本预编译的字节码存储到共享内存中来提�
 <li>找到这一行：<strong>Loaded Configuration File    /path/to/php.ini</strong></li>
 <li>编辑上面那个 <em>php.ini</em> 文件，修改内容为：</li>
 </ol>
-<div class="highlight"><pre><span></span><span class="k">[opcache]</span>
+<div class="highlight"><pre><span class="k">[opcache]</span>
 <span class="c1">; OPcache 的共享内存大小，单位：MB</span>
 <span class="na">opcache.memory_consumption</span><span class="o">=</span><span class="s">64</span>
 
@@ -95,11 +95,11 @@ OPcache 通过将 PHP 脚本预编译的字节码存储到共享内存中来提�
 <ol>
 <li>重启 php</li>
 </ol>
-<div class="highlight"><pre><span></span># 如果服务器是 Nginx
-$ /etc/init.d/php-fpm restart
+<div class="highlight"><pre><span class="cp"># 如果服务器是 Nginx</span>
+<span class="err">$</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">init</span><span class="p">.</span><span class="n">d</span><span class="o">/</span><span class="n">php</span><span class="o">-</span><span class="n">fpm</span> <span class="n">restart</span>
 
-# 如果服务器是 Apache，直接重启 Apache 即可
-$ /etc/init.d/apache restart
+<span class="cp"># 如果服务器是 Apache，直接重启 Apache 即可</span>
+<span class="err">$</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">init</span><span class="p">.</span><span class="n">d</span><span class="o">/</span><span class="n">apache</span> <span class="n">restart</span>
 </pre></div>
 
 
@@ -112,15 +112,15 @@ $ /etc/init.d/apache restart
 <ol>
 <li>如果使用的服务器是 Apache</li>
 </ol>
-<div class="highlight"><pre><span></span>$ service httpd reload
-$ apachectl graceful
+<div class="highlight"><pre><span class="err">$</span> <span class="n">service</span> <span class="n">httpd</span> <span class="n">reload</span>
+<span class="err">$</span> <span class="n">apachectl</span> <span class="n">graceful</span>
 </pre></div>
 
 
 <ol>
 <li>如果是 PHP-FPM（一般 Nginx 会采用这种方式）</li>
 </ol>
-<div class="highlight"><pre><span></span>$ service php-fpm reload
+<div class="highlight"><pre><span class="err">$</span> <span class="n">service</span> <span class="n">php</span><span class="o">-</span><span class="n">fpm</span> <span class="n">reload</span>
 </pre></div>
 
 
@@ -150,7 +150,7 @@ $ apachectl graceful
 					<div class="col-md-3">
 						<h4>Navigation</h4>
 						<ul class="list-unstyled my-list-style">
-							<li><a href="">zqhong</a></li>
+							<li><a href="https://zqhong.github.io/pelican-blog">zqhong</a></li>
 						</ul>
 					</div>
 					<div class="col-md-3">
@@ -163,10 +163,10 @@ $ apachectl graceful
 					<div class="col-md-3">
 						<h4>Categories</h4>
 						<ul class="list-unstyled my-list-style">
-							<li><a href="/category/PHP.html">PHP (7)</a></li>
-							<li><a href="/category/Python.html">Python (2)</a></li>
-							<li><a href="/category/Python,-WEB.html">Python, WEB (1)</a></li>
-							<li><a href="/category/WEB.html">WEB (2)</a></li>
+							<li><a href="https://zqhong.github.io/pelican-blog/category/PHP.html">PHP (7)</a></li>
+							<li><a href="https://zqhong.github.io/pelican-blog/category/Python.html">Python (2)</a></li>
+							<li><a href="https://zqhong.github.io/pelican-blog/category/Python,-WEB.html">Python, WEB (1)</a></li>
+							<li><a href="https://zqhong.github.io/pelican-blog/category/WEB.html">WEB (2)</a></li>
 						</ul>
 					</div>
 					<div class="col-md-3">

@@ -8,19 +8,19 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
 	<!--[if lt IE 9]>
-		<script src="/theme/html5.js"></script>
+		<script src="https://zqhong.github.io/pelican-blog/theme/html5.js"></script>
 		<![endif]-->
-	<link href="/theme/css/ipython.css" rel="stylesheet">
+	<link href="https://zqhong.github.io/pelican-blog/theme/css/ipython.css" rel="stylesheet">
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 	<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/simplex/bootstrap.min.css" rel="stylesheet">
-	<link href="/theme/css/local.css" rel="stylesheet">
-	<link href="/theme/css/pygments.css" rel="stylesheet">
+	<link href="https://zqhong.github.io/pelican-blog/theme/css/local.css" rel="stylesheet">
+	<link href="https://zqhong.github.io/pelican-blog/theme/css/pygments.css" rel="stylesheet">
 </head>
 <body>
 <div class="container">
 	<div class="page-header">
-		<h1><a href="/">zqhong</a>
+		<h1><a href="https://zqhong.github.io/pelican-blog/">zqhong</a>
 			<br><small>Simplicity is the ultimate sophistication</small></h1>	</div>
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
@@ -35,27 +35,27 @@
 	<div>
 		Category:
 		<span itemprop="articleSection">
-			<a href="/category/php.html" rel="category">PHP</a>
+			<a href="https://zqhong.github.io/pelican-blog/category/php.html" rel="category">PHP</a>
 		</span>
 	</div>
  
 	<div>
 		Tags:
 		<span itemprop="keywords">
-			<a href="/tag/typecho.html" rel="tag">typecho</a>
+			<a href="https://zqhong.github.io/pelican-blog/tag/typecho.html" rel="tag">typecho</a>
 		</span>
 		<span itemprop="keywords">
-			<a href="/tag/php.html" rel="tag">php</a>
+			<a href="https://zqhong.github.io/pelican-blog/tag/php.html" rel="tag">php</a>
 		</span>
 		<span itemprop="keywords">
-			<a href="/tag/widget.html" rel="tag">widget</a>
+			<a href="https://zqhong.github.io/pelican-blog/tag/widget.html" rel="tag">widget</a>
 		</span>
 	</div>
 	<div itemprop="articleBody" class="article-body"><h3>Widget 分析</h3>
 <h4>一、Widget 超类 Typecho_Widget</h4>
 <p>所有 Widget 都继承这个类，所以很有必要了解这个类。</p>
 <p><em>typecho/var/Typecho/Widget.php</em></p>
-<div class="highlight"><pre><span></span><span class="x">abstract class Typecho_Widget</span>
+<div class="highlight"><pre><span class="x">abstract class Typecho_Widget</span>
 <span class="x">{</span>
 <span class="x">    private static $_widgetAlias = array();</span>
 
@@ -127,7 +127,7 @@
 <h4>二、初始化组件</h4>
 <p>程序在 <em>index.php</em> 在调用 <em>Typecho_Widget::widget("Widget_Init")</em>，生成 Widget_Init 实例，并执行该实例的 <em>execute</em> 方法。<em>execute</em>才是真正实现组件初始化的地方。</p>
 <p><em>typecho/var/Widget/Init.php</em></p>
-<div class="highlight"><pre><span></span><span class="x">class Widget_Init extends Typecho_Widget</span>
+<div class="highlight"><pre><span class="x">class Widget_Init extends Typecho_Widget</span>
 <span class="x">{</span>
 <span class="x">    public function execute()</span>
 <span class="x">    {</span>
@@ -242,7 +242,7 @@
 					<div class="col-md-3">
 						<h4>Navigation</h4>
 						<ul class="list-unstyled my-list-style">
-							<li><a href="">zqhong</a></li>
+							<li><a href="https://zqhong.github.io/pelican-blog">zqhong</a></li>
 						</ul>
 					</div>
 					<div class="col-md-3">
@@ -255,10 +255,10 @@
 					<div class="col-md-3">
 						<h4>Categories</h4>
 						<ul class="list-unstyled my-list-style">
-							<li><a href="/category/PHP.html">PHP (7)</a></li>
-							<li><a href="/category/Python.html">Python (2)</a></li>
-							<li><a href="/category/Python,-WEB.html">Python, WEB (1)</a></li>
-							<li><a href="/category/WEB.html">WEB (2)</a></li>
+							<li><a href="https://zqhong.github.io/pelican-blog/category/PHP.html">PHP (7)</a></li>
+							<li><a href="https://zqhong.github.io/pelican-blog/category/Python.html">Python (2)</a></li>
+							<li><a href="https://zqhong.github.io/pelican-blog/category/Python,-WEB.html">Python, WEB (1)</a></li>
+							<li><a href="https://zqhong.github.io/pelican-blog/category/WEB.html">WEB (2)</a></li>
 						</ul>
 					</div>
 					<div class="col-md-3">
