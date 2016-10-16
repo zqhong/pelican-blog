@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-        <title>zqhong - Articles in the PHP category</title>
+        <title>zqhong - Articles by zqhong</title>
 
         <!-- Bootstrap Core CSS -->
         <link href="https://zqhong.github.io/pelican-blog/theme/css/bootstrap.min.css" rel="stylesheet">
@@ -31,8 +31,14 @@
             <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
 
-                <meta property="og:locale" content="">
+                    <meta property="og:locale" content="">
 		<meta property="og:site_name" content="zqhong">
+
+    <meta property="og:title" content="zqhong - Articles by zqhong">
+    <meta property="og:type" content="profile">
+    <meta property="profile:first_name" content="zqhong">
+    <meta property="profile:last_name" content="">
+    <meta property="profile:username" content="zqhong">
 </head>
 
 <body>
@@ -68,7 +74,7 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="post-heading">
-                        <h1>Articles in the PHP category</h1>
+                        <h1>Articles by zqhong</h1>
                     </div>
                 </div>
             </div>
@@ -79,48 +85,6 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        <div class="post-preview">
-            <a href="https://zqhong.github.io/pelican-blog/yii-log-sql-record.html" rel="bookmark" title="Permalink to Yii 记录 SQL 执行记录">
-                <h2 class="post-title">
-                    Yii 记录 SQL 执行记录
-                </h2>
-            </a>
-                <p class="article-summary">
-                    Yii 记录 SQL 执行记录 需开启 DEBUG 模式。（ define("DEBUG", true);） // 日志记录组件 'log' => array( 'class' => '\CLogRouter', 'routes' => array( array( ...
-                </p>
-            <p class="post-meta">Posted by
-                    <a href="https://zqhong.github.io/pelican-blog/author/zqhong.html">zqhong</a>
-                 on Sun 16 October 2016
-            </p>
-        </div>
-        <div class="post-preview">
-            <a href="https://zqhong.github.io/pelican-blog/how-dependency-injection-work-in-php.html" rel="bookmark" title="Permalink to PHP 中依赖注入的实现">
-                <h2 class="post-title">
-                    PHP 中依赖注入的实现
-                </h2>
-            </a>
-                <p class="article-summary">
-                    依赖注入的例子 没依赖注入的情况下 <?php class Foo { public function foo($a) { echo $a; } } class Bar { public function test($a) { // 这里我们需要手动实例化对象 $foo ...
-                </p>
-            <p class="post-meta">Posted by
-                    <a href="https://zqhong.github.io/pelican-blog/author/zqhong.html">zqhong</a>
-                 on Sun 08 May 2016
-            </p>
-        </div>
-        <div class="post-preview">
-            <a href="https://zqhong.github.io/pelican-blog/install-and-config-php-opcache.html" rel="bookmark" title="Permalink to 安装和配置 Opcache">
-                <h2 class="post-title">
-                    安装和配置 Opcache
-                </h2>
-            </a>
-                <p class="article-summary">
-                    Opcache 简介 PHP 解释器执行 PHP 脚本会先将脚本内容转换成 opcode，然后再执行字节码。但这样有一个问题，每次都这样，浪费很多资源。解决办法很简单，就是把字节码缓存起来。目前，对于 PHP 5.5 以上的版本，推荐使用 ...
-                </p>
-            <p class="post-meta">Posted by
-                    <a href="https://zqhong.github.io/pelican-blog/author/zqhong.html">zqhong</a>
-                 on Sat 19 March 2016
-            </p>
-        </div>
         <div class="post-preview">
             <a href="https://zqhong.github.io/pelican-blog/typecho-code-analysis-database.html" rel="bookmark" title="Permalink to typecho 源码分析：4、Database">
                 <h2 class="post-title">
@@ -191,14 +155,43 @@
                  on Fri 26 February 2016
             </p>
         </div>
+        <div class="post-preview">
+            <a href="https://zqhong.github.io/pelican-blog/build-dns-tunnel.html" rel="bookmark" title="Permalink to 使用iodine搭建DNS隧道">
+                <h2 class="post-title">
+                    使用iodine搭建DNS隧道
+                </h2>
+            </a>
+                <p class="article-summary">
+                    一、dns配置 以我的域名 zqhong.com 为例： ns.zqhong.com NS t.zqhong.com. # 注意：最后需要一个 "." t.zqhong.com A 1.2.3.4 # 1.2.3.4 是你的服务器地址 二、服务端配置 开启 Linux 的 ...
+                </p>
+            <p class="post-meta">Posted by
+                    <a href="https://zqhong.github.io/pelican-blog/author/zqhong.html">zqhong</a>
+                 on Tue 16 February 2016
+            </p>
+        </div>
+        <div class="post-preview">
+            <a href="https://zqhong.github.io/pelican-blog/add-ssl-certificate-on-your-domain.html" rel="bookmark" title="Permalink to 全站使用HTTPS（StartSSL+Nginx）">
+                <h2 class="post-title">
+                    全站使用HTTPS（StartSSL+Nginx）
+                </h2>
+            </a>
+                <p class="article-summary">
+                    1、开通企业邮箱 这里使用的是阿里云企业邮箱，大致步骤：1、添加解析 2、设置密码 3、分配员工账号。具体请参考：阿里云企业邮箱开通指南。 备注：申请SSL证书需要确认申请人是否拥有域名的管理权。一般会发验证链接到 postmaster@yourdomain.com 或 ...
+                </p>
+            <p class="post-meta">Posted by
+                    <a href="https://zqhong.github.io/pelican-blog/author/zqhong.html">zqhong</a>
+                 on Thu 21 January 2016
+            </p>
+        </div>
 
     <hr>
     <!-- Pager -->
     <ul class="pager">
         <li class="next">
+                <a href="https://zqhong.github.io/pelican-blog/author/zqhong3.html"> &larr; Newest Posts</a>
         </li>
     </ul>
-    Page 1 / 1
+    Page 4 / 4
     <hr>
             </div>
         </div>
