@@ -18,8 +18,8 @@ class TemplateGenerator:
         self.dir = 'content'
         self.template = """Title: Your_Title
 Date: {date}
-Category: category1
-Tags: tag1
+Category: 随笔
+Tags: 随笔
 Slug: {slug}
 Author: {author}
 """
